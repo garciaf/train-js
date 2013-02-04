@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/css/main.css' />
+    <script data-main="js/main.js" src="js/vendors/require.js"></script>
+  </head>
+  <body>
+  <header class="navbar">
+    <div class="navbar-inner navbar-fixed-top ">
+      <a class="brand" href="#">TrainJs</a>
+      <ul class="nav">
+        <li><a href="#map">Map</a></li>
+        <li><a href="#departure">Departure</a></li>
+        <li><a href="#arrivals">Arrivals</a></li>
+      </ul>
+      <form class="navbar-search pull-left">
+        <div class="input-append">
+            <input type="text" id="search" class="search-query" name="q" placeholder="search" value="">
+        </div>
+      </form>
+      <a class="brand" id="station"></a>
+    </div>
+  </header>
+  <section id="content">
+    {{{body}}}
+  </section>
+  </body>
+</html>

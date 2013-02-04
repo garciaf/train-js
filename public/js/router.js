@@ -3,12 +3,12 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, AppView, Backbone, InfoView, MapView, Router, StationCollection, StationModel, _;
+  var $, AppView, Backbone, InfoView, MapStationView, Router, StationCollection, StationModel, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   AppView = require('views/misc/app');
-  MapView = require('views/MapView');
+  MapStationView = require('views/MapStationView');
   InfoView = require('views/InfoView');
   StationModel = require('models/StationModel');
   StationCollection = require('collections/StationCollection');
@@ -45,12 +45,15 @@ define(function(require) {
     };
 
     Router.prototype.map = function() {
-      var mapView;
-      return mapView = new MapView({
-        collection: this.collection,
-        collectionDisplayed: this.collectionDisplayed,
-        SelectedStation: this.SelectedStation
-      });
+      if (this.mapView == null) {
+        return this.mapView = new MapStationView({
+          collection: this.collection,
+          collectionDisplayed: this.collectionDisplayed,
+          SelectedStation: this.SelectedStation
+        });
+      } else {
+        return this.mapView.render();
+      }
     };
 
     Router.prototype.initialize = function() {

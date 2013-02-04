@@ -4,7 +4,7 @@ define (require) ->
   _           = require 'underscore'
   Backbone    = require 'backbone'
   AppView     = require 'views/misc/app'
-  MapView     = require 'views/MapView'
+  MapStationView = require 'views/MapStationView'
   InfoView    = require 'views/InfoView'
   StationModel = require 'models/StationModel'
   StationCollection = require 'collections/StationCollection'
@@ -37,11 +37,13 @@ define (require) ->
         type: "D"
       )
     map: ->
-      mapView = new MapView(
-        collection: @collection
-        collectionDisplayed: @collectionDisplayed
-        SelectedStation: @SelectedStation
-      )
+      unless @mapView?
+        @mapView = new MapStationView(
+          collection: @collection
+          collectionDisplayed: @collectionDisplayed
+          SelectedStation: @SelectedStation
+        )
+      else @mapView.render()        
 
     initialize: ->
       @SelectedStation = new StationModel()

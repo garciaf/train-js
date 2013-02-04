@@ -3,41 +3,38 @@ define (require) ->
   $           = require 'jquery'
   _           = require 'underscore'
   Backbone    = require 'backbone'
-  # require "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"
   jhere       = require 'jhere'
-  StationCollection = require 'collections/StationCollection'
-  mapTemplate    = require 'hbs!templates/station/map'
-  StationView = require 'views/StationView'
-  SearchView = require 'views/SearchView'
-  TableStationView = require 'views/TableStationView'
-  stationTableTemplate = require 'hbs!templates/station/tableStation'
+  stationRowTemplate = require 'hbs!templates/station/rowStation'
+  Dispatcher  = require 'event'
   ->
 
   class MapView extends Backbone.View
-
-    el: 'body'
-
+      
     initialize: (opts) ->
-      @rowViews = []
-      @SelectedStation = opts.SelectedStation
-      @SelectedStation.on "change", @changeStation, @
-      @collection = opts.collection
-      @collectionDisplayed = opts.collectionDisplayed      
-      @collection.once "reset", @syncDisplayed, @
-      @collection.fetch()
+      @map = {}
+      @displayMarker()
+      @collection.once "reset", @displayMarker, @
+      Dispatcher.on "station:selected",  @centerMap, @
+      Dispatcher.on "station:hover",  @addBubbles, @
 
-      @tableStationView = new TableStationView(
-        collection: @collectionDisplayed
-        SelectedStation: @SelectedStation
+    addBubbles: (station) ->
+      $("#map").jHERE 'center', station.getPosition()
+      $("#map").jHERE 'bubble', station.getPosition(), content: station.get('name')
+    centerMap: (station) ->
+      $("#map").jHERE 'center', station.getPosition()
+    displayMarker: ->
+      @collection.forEach (station) =>
+        @positionObject = [station.get('x'), station.get('y')]
+        $("#map").jHERE 'marker', @positionObject, click: (e) => Dispatcher.trigger "station:selected", station
+      return false
+
+    popUpBubbles: ->
+
+    render: ->
+      @map = $("#map").jHERE(
+        appId: "usgKT-xql56_vPTmD3Z5"
+        authToken: "vR2pZ6q3EMnE3PX6fqt9uw"
       )
-      @searchView = new SearchView(
-        collectionDisplayed: @collectionDisplayed
-        collection: @collection
-      )
-    changeStation: ->
-      console.log "station Changed"
-      $("#station").html(@SelectedStation.get("name"))
-    syncDisplayed: ()->
-      @collectionDisplayed.reset @collection.models
+      return @
     # Returns the Router class
     MapView

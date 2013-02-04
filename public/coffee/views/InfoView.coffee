@@ -19,7 +19,6 @@ define (require) ->
       @rowViews = []
       @type = opts.type
       @model = opts.model
-      # @selectedStation = opts.selectedStation
       @collection = new InfoCollection()
       @collection.on "reset", @render, @
       @collection.fetch(
@@ -35,11 +34,5 @@ define (require) ->
           model: info
         )
         @$el.find('tbody').append(@rowViews[key].render().el)
-    changeStation: ->
-            
-      console.log "station Changed"
-      $("#station").html(@SelectedStation.get("name"))
-    syncDisplayed: ()->
-      @collectionDisplayed.reset @collection.models
-    # Returns the Router class
+
     InfoView

@@ -3,11 +3,12 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, SearchView, StationCollection, _;
+  var $, Backbone, Dispatcher, SearchView, StationCollection, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   StationCollection = require('collections/StationCollection');
+  Dispatcher = require('event');
   (function() {});
   return SearchView = (function(_super) {
 
@@ -30,9 +31,7 @@ define(function(require) {
     };
 
     SearchView.prototype.searchStation = function() {
-      this.collectionDisplayed.reset(this.collection.findPerName(this.search.val()));
-      console.log(this.collection);
-      return this.collection.findPerName(this.search.val());
+      return Dispatcher.trigger("search:complete", this.collection.findPerName(this.search.val()));
     };
 
     SearchView;

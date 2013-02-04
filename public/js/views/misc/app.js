@@ -3,10 +3,11 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, AppView, Backbone, _;
+  var $, AppView, Backbone, Dispatcher, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
+  Dispatcher = require('event');
   (function() {});
   AppView = (function(_super) {
 
@@ -17,7 +18,21 @@ define(function(require) {
     }
 
     AppView.prototype.initialize = function(opts) {
-      return _.bindAll(this);
+      _.bindAll(this);
+      return Dispatcher.on("info:selected", this.displayInfo);
+    };
+
+    AppView.prototype.displayInfo = function(info) {
+      var date, destination,
+        _this = this;
+      date = info.get('retard') ? info.getDelay() : info.getWhen();
+      destination = info.get('origdest');
+      if (this.intervalID != null) {
+        clearInterval(this.intervalID);
+      }
+      return this.intervalID = setInterval(function() {
+        return $("#info").html("" + destination + ":  " + (info.getTimeremaining()));
+      }, 1000);
     };
 
     AppView.prototype.showView = function(view) {

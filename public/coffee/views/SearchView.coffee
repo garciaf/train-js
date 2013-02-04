@@ -4,6 +4,7 @@ define (require) ->
   _           = require 'underscore'
   Backbone    = require 'backbone'
   StationCollection = require 'collections/StationCollection'
+  Dispatcher  = require 'event'
 
 
   ->
@@ -18,10 +19,8 @@ define (require) ->
       @collectionDisplayed = opts.collectionDisplayed
       @collection = opts.collection
 
-    searchStation: ->
-      @collectionDisplayed.reset(@collection.findPerName @search.val())
-      console.log @collection
-      return @collection.findPerName @search.val()
 
-    # Returns the Router class
+    searchStation: ->
+      Dispatcher.trigger "search:complete", @collection.findPerName(@search.val())
+
     SearchView

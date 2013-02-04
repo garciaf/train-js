@@ -3,10 +3,11 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, StationCollection, _;
+  var $, Backbone, StationCollection, StationModel, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
+  StationModel = require('models/StationModel');
   (function() {});
   return StationCollection = (function(_super) {
 
@@ -18,11 +19,13 @@ define(function(require) {
 
     StationCollection.prototype.url = "./stations";
 
+    StationCollection.prototype.model = StationModel;
+
     StationCollection.prototype.findPerName = function(value) {
       var lowValue, result,
         _this = this;
       lowValue = value.toLowerCase();
-      return result = this.filter(function(station) {
+      result = this.filter(function(station) {
         var lowStationName;
         lowStationName = station.get('name').toLowerCase();
         if (lowStationName.indexOf(lowValue) === -1) {
@@ -30,6 +33,7 @@ define(function(require) {
         }
         return true;
       });
+      return result;
     };
 
     StationCollection;

@@ -9,33 +9,24 @@ define (require) ->
   mapTemplate    = require 'hbs!templates/station/map'
   StationView = require 'views/StationView'
   SearchView = require 'views/SearchView'
+  MapView   = require 'views/MapView'
+
   stationTableTemplate = require 'hbs!templates/station/tableStation'
   ->
 
   class TableStationView extends Backbone.View
 
-    el: '#content'
-
     initialize: (opts) ->
       @rowViews = []
+      @fullCollection = opts.fullCollection
       @collection.on "reset", @render, @
-      @SelectedStation = opts.SelectedStation
-      @SelectedStation.on "change", @centerMap, @
-    centerMap: ->
-      @positionCenter = [@SelectedStation.get('x'), @SelectedStation.get('y')]
-      @map.jHERE("center", @positionCenter)
-      @map.jHERE('zoom', 9)
+
     render: ->
-      @$el.html(mapTemplate())
-      @$el.append(stationTableTemplate())
-      
-      @map = $("#map").jHERE("center", @positionCenter)
+      @$el.html(stationTableTemplate())
 
       @collection.forEach (station, key) => 
         @rowViews[key] = new StationView(
-          map: @map
           model: station
-          SelectedStation: @SelectedStation
         )
         @$el.find('tbody').append(@rowViews[key].render().el)
       

@@ -48,15 +48,6 @@ define(function(require) {
       });
     };
 
-    InfoView.prototype.changeStation = function() {
-      console.log("station Changed");
-      return $("#station").html(this.SelectedStation.get("name"));
-    };
-
-    InfoView.prototype.syncDisplayed = function() {
-      return this.collectionDisplayed.reset(this.collection.models);
-    };
-
     InfoView;
 
 

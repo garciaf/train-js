@@ -4,6 +4,7 @@ define (require) ->
   _           = require 'underscore'
   Backbone    = require 'backbone'
   stationRowTemplate = require 'hbs!templates/station/rowStation'
+  Dispatcher  = require 'event'
   ->
 
   class StationView extends Backbone.View
@@ -11,23 +12,15 @@ define (require) ->
     tagName:  "tr"
 
     events:
-      "mouseover" : "popUpBubbles"
+      "mouseover" : "onMouseOver"
       "click" : "chooseStation"
 
     chooseStation: ->
-      @SelectedStation.set @model.toJSON()
+      Dispatcher.trigger "station:selected", @model
       
-    initialize: (opts) ->
-      @SelectedStation = opts.SelectedStation
-      @map = opts.map
-      @positionObject = [@model.get('x'), @model.get('y')]
-      @map.jHERE 'marker', @positionObject, {click: (e) => @chooseStation() }
-    # 
-    popUpBubbles: ->
-      @map.jHERE("center", @positionObject)
-      @map.jHERE('zoom', 9)
-      @map.jHERE 'bubble', @positionObject, {content: @model.get('name')}
-
+    onMouseOver: ->
+      Dispatcher.trigger "station:hover", @model
+      
     render: ->
       @$el.html(stationRowTemplate(@model.toJSON()))
       return @

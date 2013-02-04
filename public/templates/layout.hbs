@@ -3,7 +3,6 @@
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/css/main.css' />
-    <script data-main="js/main.js" src="js/vendors/require.js"></script>
   </head>
   <body>
   <header class="navbar">
@@ -20,10 +19,13 @@
         </div>
       </form>
       <a class="brand" id="station"></a>
+      <a class="label label-important" id="info"></a>
     </div>
   </header>
   <section id="content">
     {{{body}}}
   </section>
+  <script data-main="js/main.js" src="js/vendors/require.js"></script>
+
   </body>
 </html>

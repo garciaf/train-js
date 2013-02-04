@@ -3,11 +3,12 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, InfoRowView, rowTemplate, _;
+  var $, Backbone, Dispatcher, InfoRowView, rowTemplate, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   rowTemplate = require('hbs!templates/info/rowInfo');
+  Dispatcher = require('event');
   (function() {});
   return InfoRowView = (function(_super) {
 
@@ -19,7 +20,15 @@ define(function(require) {
 
     InfoRowView.prototype.tagName = "tr";
 
+    InfoRowView.prototype.events = {
+      "click": "selectInfo"
+    };
+
     InfoRowView.prototype.initialize = function(opts) {};
+
+    InfoRowView.prototype.selectInfo = function() {
+      return Dispatcher.trigger("info:selected", this.model);
+    };
 
     InfoRowView.prototype.render = function() {
       this.$el.html(rowTemplate(this.model.toJSON()));

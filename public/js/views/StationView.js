@@ -3,11 +3,12 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, StationView, stationRowTemplate, _;
+  var $, Backbone, Dispatcher, StationView, stationRowTemplate, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   stationRowTemplate = require('hbs!templates/station/rowStation');
+  Dispatcher = require('event');
   (function() {});
   return StationView = (function(_super) {
 
@@ -20,32 +21,16 @@ define(function(require) {
     StationView.prototype.tagName = "tr";
 
     StationView.prototype.events = {
-      "mouseover": "popUpBubbles",
+      "mouseover": "onMouseOver",
       "click": "chooseStation"
     };
 
     StationView.prototype.chooseStation = function() {
-      return this.SelectedStation.set(this.model.toJSON());
+      return Dispatcher.trigger("station:selected", this.model);
     };
 
-    StationView.prototype.initialize = function(opts) {
-      var _this = this;
-      this.SelectedStation = opts.SelectedStation;
-      this.map = opts.map;
-      this.positionObject = [this.model.get('x'), this.model.get('y')];
-      return this.map.jHERE('marker', this.positionObject, {
-        click: function(e) {
-          return _this.chooseStation();
-        }
-      });
-    };
-
-    StationView.prototype.popUpBubbles = function() {
-      this.map.jHERE("center", this.positionObject);
-      this.map.jHERE('zoom', 9);
-      return this.map.jHERE('bubble', this.positionObject, {
-        content: this.model.get('name')
-      });
+    StationView.prototype.onMouseOver = function() {
+      return Dispatcher.trigger("station:hover", this.model);
     };
 
     StationView.prototype.render = function() {

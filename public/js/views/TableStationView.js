@@ -3,7 +3,7 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, SearchView, StationCollection, StationView, TableStationView, jhere, mapTemplate, stationTableTemplate, _;
+  var $, Backbone, MapView, SearchView, StationCollection, StationView, TableStationView, jhere, mapTemplate, stationTableTemplate, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
@@ -12,6 +12,7 @@ define(function(require) {
   mapTemplate = require('hbs!templates/station/map');
   StationView = require('views/StationView');
   SearchView = require('views/SearchView');
+  MapView = require('views/MapView');
   stationTableTemplate = require('hbs!templates/station/tableStation');
   (function() {});
   return TableStationView = (function(_super) {
@@ -22,31 +23,18 @@ define(function(require) {
       return TableStationView.__super__.constructor.apply(this, arguments);
     }
 
-    TableStationView.prototype.el = '#content';
-
     TableStationView.prototype.initialize = function(opts) {
       this.rowViews = [];
-      this.collection.on("reset", this.render, this);
-      this.SelectedStation = opts.SelectedStation;
-      return this.SelectedStation.on("change", this.centerMap, this);
-    };
-
-    TableStationView.prototype.centerMap = function() {
-      this.positionCenter = [this.SelectedStation.get('x'), this.SelectedStation.get('y')];
-      this.map.jHERE("center", this.positionCenter);
-      return this.map.jHERE('zoom', 9);
+      this.fullCollection = opts.fullCollection;
+      return this.collection.on("reset", this.render, this);
     };
 
     TableStationView.prototype.render = function() {
       var _this = this;
-      this.$el.html(mapTemplate());
-      this.$el.append(stationTableTemplate());
-      this.map = $("#map").jHERE("center", this.positionCenter);
+      this.$el.html(stationTableTemplate());
       return this.collection.forEach(function(station, key) {
         _this.rowViews[key] = new StationView({
-          map: _this.map,
-          model: station,
-          SelectedStation: _this.SelectedStation
+          model: station
         });
         return _this.$el.find('tbody').append(_this.rowViews[key].render().el);
       });

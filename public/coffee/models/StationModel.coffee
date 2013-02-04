@@ -3,7 +3,6 @@ define (require) ->
   $           = require 'jquery'
   _           = require 'underscore'
   Backbone    = require 'backbone'
-  moment      = require 'moment'
   ->
 
   class StationModel extends Backbone.Model
@@ -11,4 +10,7 @@ define (require) ->
       x: 0
       y: 0
     # Returns the Router class
+    getPosition: () ->
+      return [@get('x'), @get('y')]
+
     StationModel

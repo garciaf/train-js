@@ -3,17 +3,13 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, MapView, SearchView, StationCollection, StationView, TableStationView, jhere, mapTemplate, stationTableTemplate, _;
+  var $, Backbone, Dispatcher, MapView, jhere, stationRowTemplate, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   jhere = require('jhere');
-  StationCollection = require('collections/StationCollection');
-  mapTemplate = require('hbs!templates/station/map');
-  StationView = require('views/StationView');
-  SearchView = require('views/SearchView');
-  TableStationView = require('views/TableStationView');
-  stationTableTemplate = require('hbs!templates/station/tableStation');
+  stationRowTemplate = require('hbs!templates/station/rowStation');
+  Dispatcher = require('event');
   (function() {});
   return MapView = (function(_super) {
 
@@ -23,33 +19,46 @@ define(function(require) {
       return MapView.__super__.constructor.apply(this, arguments);
     }
 
-    MapView.prototype.el = 'body';
-
     MapView.prototype.initialize = function(opts) {
-      this.rowViews = [];
-      this.SelectedStation = opts.SelectedStation;
-      this.SelectedStation.on("change", this.changeStation, this);
-      this.collection = opts.collection;
-      this.collectionDisplayed = opts.collectionDisplayed;
-      this.collection.once("reset", this.syncDisplayed, this);
-      this.collection.fetch();
-      this.tableStationView = new TableStationView({
-        collection: this.collectionDisplayed,
-        SelectedStation: this.SelectedStation
-      });
-      return this.searchView = new SearchView({
-        collectionDisplayed: this.collectionDisplayed,
-        collection: this.collection
+      this.map = {};
+      this.displayMarker();
+      this.collection.once("reset", this.displayMarker, this);
+      Dispatcher.on("station:selected", this.centerMap, this);
+      return Dispatcher.on("station:hover", this.addBubbles, this);
+    };
+
+    MapView.prototype.addBubbles = function(station) {
+      $("#map").jHERE('center', station.getPosition());
+      return $("#map").jHERE('bubble', station.getPosition(), {
+        content: station.get('name')
       });
     };
 
-    MapView.prototype.changeStation = function() {
-      console.log("station Changed");
-      return $("#station").html(this.SelectedStation.get("name"));
+    MapView.prototype.centerMap = function(station) {
+      return $("#map").jHERE('center', station.getPosition());
     };
 
-    MapView.prototype.syncDisplayed = function() {
-      return this.collectionDisplayed.reset(this.collection.models);
+    MapView.prototype.displayMarker = function() {
+      var _this = this;
+      this.collection.forEach(function(station) {
+        _this.positionObject = [station.get('x'), station.get('y')];
+        return $("#map").jHERE('marker', _this.positionObject, {
+          click: function(e) {
+            return Dispatcher.trigger("station:selected", station);
+          }
+        });
+      });
+      return false;
+    };
+
+    MapView.prototype.popUpBubbles = function() {};
+
+    MapView.prototype.render = function() {
+      this.map = $("#map").jHERE({
+        appId: "usgKT-xql56_vPTmD3Z5",
+        authToken: "vR2pZ6q3EMnE3PX6fqt9uw"
+      });
+      return this;
     };
 
     MapView;

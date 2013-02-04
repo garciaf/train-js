@@ -22,13 +22,22 @@ define(function(require) {
       y: 0
     };
 
-    InfoModel.prototype.getWhen = function() {
+    InfoModel.prototype.getTimeremaining = function() {
       var to;
-      to = moment(this.get('heure'));
-      return to.format("HH:mm");
+      to = !!this.get('retard') ? this.getDelayTime() : this.getWhenTime();
+      console.log;
+      return to.from(moment(new Date()));
     };
 
-    InfoModel.prototype.getDelay = function() {
+    InfoModel.prototype.getWhenTime = function() {
+      return moment(this.get('heure'));
+    };
+
+    InfoModel.prototype.getWhen = function() {
+      return this.getWhenTime().format("HH:mm");
+    };
+
+    InfoModel.prototype.getDelayTime = function() {
       var delay, hours, min, to;
       if (this.get('retard')) {
         delay = this.get('retard');
@@ -39,8 +48,18 @@ define(function(require) {
           minutes: parseInt(min, 10)
         });
         to = moment(this.get('heure'));
-        return to.add(delay).format("HH:mm");
+        return to.add(delay);
       }
+      return false;
+    };
+
+    InfoModel.prototype.getDelay = function() {
+      var time;
+      time = this.getDelayTime();
+      if (time) {
+        return time.format("HH:mm");
+      }
+      return null;
     };
 
     InfoModel.prototype.toJSON = function() {

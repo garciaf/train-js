@@ -3,11 +3,10 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, StationModel, moment, _;
+  var $, Backbone, StationModel, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
-  moment = require('moment');
   (function() {});
   return StationModel = (function(_super) {
 
@@ -20,6 +19,10 @@ define(function(require) {
     StationModel.prototype.defaults = {
       x: 0,
       y: 0
+    };
+
+    StationModel.prototype.getPosition = function() {
+      return [this.get('x'), this.get('y')];
     };
 
     StationModel;

@@ -10,11 +10,18 @@ define (require) ->
     defaults:
       x: 0
       y: 0
+    getTimeremaining: ->
+      to = if !!@get('retard') then @getDelayTime() else @getWhenTime()
+      console.log 
+      return to.from(moment(new Date()))
+    
+    getWhenTime: ->
+      return moment(@get('heure'))
+
     getWhen: ->
-      to = moment(@get('heure'))
-      return to.format("HH:mm")
+      return @getWhenTime().format("HH:mm")
       # return to.fromNow()
-    getDelay: ->
+    getDelayTime: ->
       if @get('retard')
         delay = @get('retard')
         hours = "#{delay[0]}#{delay[1]}"
@@ -24,7 +31,14 @@ define (require) ->
           minutes: parseInt(min, 10)
         )
         to = moment(@get('heure'))
-        return to.add(delay).format("HH:mm")
+        return to.add(delay)
+      return false
+
+    getDelay: ->
+      time = @getDelayTime()
+      if time
+        return time.format("HH:mm")
+      return null
     toJSON: ->
       json = _(@attributes).clone()
       json.when = @getWhen()

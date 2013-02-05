@@ -13,11 +13,24 @@ define (require) ->
   class MapStationView extends Backbone.View
 
     el: '#mapView'
+    events:
+      "click #fullscreen": "changeSize"
+
+    changeSize: ->
+      unless @fullScreen
+        @fullScreen = true
+        $("#map").css("height", $(window).height())
+      else
+        @fullScreen = false
+        $("#map").css("height", @mapHeight)
 
     initialize: (opts) ->
       Dispatcher.on "station:selected", @changeStation, @
       Dispatcher.on "search:complete", @syncDisplayed, @
       @render()
+      @fullScreen = false
+      @mapHeight = $("#map").css("height")
+
     render: ->
       @$el.html(mainTemplate())
       @tableStationView = new TableStationView(

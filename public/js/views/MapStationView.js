@@ -23,10 +23,26 @@ define(function(require) {
 
     MapStationView.prototype.el = '#mapView';
 
+    MapStationView.prototype.events = {
+      "click #fullscreen": "changeSize"
+    };
+
+    MapStationView.prototype.changeSize = function() {
+      if (!this.fullScreen) {
+        this.fullScreen = true;
+        return $("#map").css("height", $(window).height());
+      } else {
+        this.fullScreen = false;
+        return $("#map").css("height", this.mapHeight);
+      }
+    };
+
     MapStationView.prototype.initialize = function(opts) {
       Dispatcher.on("station:selected", this.changeStation, this);
       Dispatcher.on("search:complete", this.syncDisplayed, this);
-      return this.render();
+      this.render();
+      this.fullScreen = false;
+      return this.mapHeight = $("#map").css("height");
     };
 
     MapStationView.prototype.render = function() {

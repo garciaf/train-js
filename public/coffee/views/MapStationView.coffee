@@ -18,15 +18,22 @@ define (require) ->
 
     changeSize: ->
       unless @fullScreen
-        @fullScreen = true
-        $("#map").css("height", $(window).height())
+        @turnMapFullScreen()
       else
-        @fullScreen = false
-        $("#map").css("height", @mapHeight)
+        @turnMapRegularSize()
+
+    turnMapFullScreen: ->
+      @fullScreen = true
+      $("#map").css("height", $(window).height()) 
+
+    turnMapRegularSize: ->
+      @fullScreen = false
+      $("#map").css("height", @mapHeight)
 
     initialize: (opts) ->
       Dispatcher.on "station:selected", @changeStation, @
       Dispatcher.on "search:complete", @syncDisplayed, @
+      Dispatcher.on "search:complete", @turnMapRegularSize, @
       @render()
       @fullScreen = false
       @mapHeight = $("#map").css("height")

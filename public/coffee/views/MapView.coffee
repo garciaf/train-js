@@ -9,8 +9,10 @@ define (require) ->
   ->
 
   class MapView extends Backbone.View
-      
-    initialize: (opts) ->
+    
+
+
+    initialize: (opts) ->      
       Dispatcher.once "search:complete", @displayMarker, @
       Dispatcher.on "station:selected",  @centerMap, @
       Dispatcher.on "station:hover",  @addBubbles, @

@@ -20,7 +20,7 @@ define (require) ->
 
     getWhen: ->
       return @getWhenTime().format("HH:mm")
-      # return to.fromNow()
+      
     getDelayTime: ->
       if @get('retard')
         delay = @get('retard')

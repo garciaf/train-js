@@ -3,7 +3,7 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, TableStationView, stationTableTemplate, tableTemplate, _;
+  var $, Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, TableStationView, moment, stationTableTemplate, tableTemplate, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
@@ -13,6 +13,7 @@ define(function(require) {
   InfoRowView = require('views/InfoRowView');
   TableStationView = require('views/TableStationView');
   stationTableTemplate = require('hbs!templates/station/tableStation');
+  moment = require('moment');
   (function() {});
   return InfoView = (function(_super) {
 
@@ -33,7 +34,18 @@ define(function(require) {
       this.model = opts.model;
       this.collection = new InfoCollection();
       this.collection.on("reset", this.render, this);
-      return Dispatcher.on("station:selected", this.populateData, this);
+      return Dispatcher.on("station:selected", this.loopPopulateData, this);
+    };
+
+    InfoView.prototype.loopPopulateData = function(model) {
+      var _this = this;
+      this.populateData(model);
+      if (this.intervalID != null) {
+        clearInterval(this.intervalID);
+      }
+      return this.intervalID = setInterval(function() {
+        return _this.populateData(model);
+      }, 60000);
     };
 
     InfoView.prototype.populateData = function(model) {
@@ -45,15 +57,18 @@ define(function(require) {
     };
 
     InfoView.prototype.render = function() {
-      var _this = this;
+      var now,
+        _this = this;
       this.infos = new InfoCollection(this.collection.toJSON()[0][this.type]);
       this.$el.html(tableTemplate());
-      return this.infos.forEach(function(info, key) {
+      this.infos.forEach(function(info, key) {
         _this.rowViews[key] = new InfoRowView({
           model: info
         });
         return _this.$el.find('tbody').append(_this.rowViews[key].render().el);
       });
+      now = moment().format("LT");
+      return $("#lastupdate").html(now);
     };
 
     InfoView.prototype.hide = function() {

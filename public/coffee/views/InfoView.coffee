@@ -9,6 +9,8 @@ define (require) ->
   InfoRowView = require 'views/InfoRowView'
   TableStationView = require 'views/TableStationView'
   stationTableTemplate = require 'hbs!templates/station/tableStation'
+  moment      = require 'moment'
+
   ->
 
   class InfoView extends Backbone.View
@@ -23,8 +25,15 @@ define (require) ->
       @model = opts.model
       @collection = new InfoCollection()
       @collection.on "reset", @render, @
-      Dispatcher.on "station:selected", @populateData, @
+      Dispatcher.on "station:selected", @loopPopulateData, @
     
+    loopPopulateData: (model) ->
+      @populateData(model)
+      if @intervalID? then clearInterval(@intervalID)
+      @intervalID = setInterval( () =>
+        @populateData(model)
+      , 60000)
+
     populateData: (model) ->
       @collection.fetch(
         data:
@@ -32,6 +41,7 @@ define (require) ->
       )
     
     render: ->
+
       @infos = new InfoCollection(@collection.toJSON()[0][@type])
       @$el.html(tableTemplate())
       @infos.forEach (info, key) => 
@@ -39,6 +49,9 @@ define (require) ->
           model: info
         )
         @$el.find('tbody').append(@rowViews[key].render().el)
+
+      now = moment().format("LT")
+      $("#lastupdate").html(now)
     
     hide: ->
       @$el.hide()

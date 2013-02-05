@@ -22,7 +22,7 @@ define (require) ->
       $("#map").jHERE 'center', station.getPosition()
     displayMarker: (stations) ->
       stations.forEach (station) =>
-        $("#map").jHERE 'marker', station.getPosition(), click: (e) => Dispatcher.trigger "station:selected", station
+        $("#map").jHERE 'marker', station.getPosition(),  {icon: 'img/steamtrain.png', anchor: {x: 12, y: 30},  click: (e) => Dispatcher.trigger "station:selected", station }
       return false
 
     render: ->

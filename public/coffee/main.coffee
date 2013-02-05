@@ -17,32 +17,24 @@ require.config
     "moment": "vendors/moment.min"
     "templates": "../templates"
 
-  # Sets the configuration for your third party scripts that are not AMD compatible
   shim:
     "underscore":
       exports: "_"
-    # Twitter Bootstrap jQuery plugins
     "jhere":
       exports: "$"
       deps: ["jquery"]
     "backbone":
         deps: ["underscore", "jquery"]
-        exports: "Backbone" #attaches "Backbone" to the window object
-
-  # Settings for the handlebars implementation
+        exports: "Backbone"
   hbs:
 
     # # callback to determine path to look for helpers
     # helperPathCallback: (name) ->
     #     "helpers/all"
     templateExtension: "hbs"
-    # if disableI18n is `true` it won't load locales and the i18n helper
-    # won't work as well.
     disableI18n: true
     "hbs/underscore": "underscore"
 
-
-# Include Desktop Specific JavaScript files here (or inside of your Desktop router)
 require ["modernizr", "jquery", "backbone", "router"], (Modernizr, $, Backbone, Router) ->
 
   # Instantiates a new Router

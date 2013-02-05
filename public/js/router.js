@@ -3,15 +3,13 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, AppView, Backbone, InfoView, MapStationView, Router, StationCollection, StationModel, _;
+  var $, AppView, Backbone, InfoView, MapStationView, Router, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   AppView = require('views/misc/app');
   MapStationView = require('views/MapStationView');
   InfoView = require('views/InfoView');
-  StationModel = require('models/StationModel');
-  StationCollection = require('collections/StationCollection');
   (function() {});
   return Router = (function(_super) {
 
@@ -31,36 +29,37 @@ define(function(require) {
     Router.prototype.home = function() {};
 
     Router.prototype.arrival = function() {
-      return this.infoView = new InfoView({
-        model: this.SelectedStation,
-        type: "A"
-      });
+      var _ref;
+      this.arrivalInfoView.$el.show();
+      this.departureInfoView.$el.hide();
+      return (_ref = this.mapView) != null ? _ref.$el.hide() : void 0;
     };
 
     Router.prototype.departure = function() {
-      return this.infoView = new InfoView({
-        model: this.SelectedStation,
-        type: "D"
-      });
+      var _ref;
+      this.departureInfoView.$el.show();
+      this.arrivalInfoView.$el.hide();
+      return (_ref = this.mapView) != null ? _ref.$el.hide() : void 0;
     };
 
     Router.prototype.map = function() {
       if (this.mapView == null) {
-        return this.mapView = new MapStationView({
-          collection: this.collection,
-          collectionDisplayed: this.collectionDisplayed,
-          SelectedStation: this.SelectedStation
-        });
+        this.mapView = new MapStationView();
       } else {
-        return this.mapView.render();
+        this.mapView.$el.show();
       }
+      this.departureInfoView.$el.hide();
+      return this.arrivalInfoView.$el.hide();
     };
 
     Router.prototype.initialize = function() {
       var enablePushState, pushState;
-      this.SelectedStation = new StationModel();
-      this.collection = new StationCollection();
-      this.collectionDisplayed = new StationCollection();
+      this.departureInfoView = new InfoView({
+        type: "D"
+      });
+      this.arrivalInfoView = new InfoView({
+        type: "A"
+      });
       this.appView = new AppView;
       enablePushState = false;
       pushState = !!(enablePushState && window.history && window.history.pushState);

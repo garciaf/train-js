@@ -3,17 +3,15 @@ define (require) ->
   $           = require 'jquery'
   _           = require 'underscore'
   Backbone    = require 'backbone'
+  Dispatcher  = require 'event'
   jhere       = require 'jhere'
-  stationRowTemplate = require 'hbs!templates/station/rowStation'
   Dispatcher  = require 'event'
   ->
 
   class MapView extends Backbone.View
       
     initialize: (opts) ->
-      @map = {}
-      @displayMarker()
-      @collection.once "reset", @displayMarker, @
+      Dispatcher.once "search:complete", @displayMarker, @
       Dispatcher.on "station:selected",  @centerMap, @
       Dispatcher.on "station:hover",  @addBubbles, @
 
@@ -22,13 +20,10 @@ define (require) ->
       $("#map").jHERE 'bubble', station.getPosition(), content: station.get('name')
     centerMap: (station) ->
       $("#map").jHERE 'center', station.getPosition()
-    displayMarker: ->
-      @collection.forEach (station) =>
-        @positionObject = [station.get('x'), station.get('y')]
-        $("#map").jHERE 'marker', @positionObject, click: (e) => Dispatcher.trigger "station:selected", station
+    displayMarker: (stations) ->
+      stations.forEach (station) =>
+        $("#map").jHERE 'marker', station.getPosition(), click: (e) => Dispatcher.trigger "station:selected", station
       return false
-
-    popUpBubbles: ->
 
     render: ->
       @map = $("#map").jHERE(
@@ -36,5 +31,4 @@ define (require) ->
         authToken: "vR2pZ6q3EMnE3PX6fqt9uw"
       )
       return @
-    # Returns the Router class
     MapView

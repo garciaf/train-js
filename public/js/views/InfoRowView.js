@@ -24,8 +24,6 @@ define(function(require) {
       "click": "selectInfo"
     };
 
-    InfoRowView.prototype.initialize = function(opts) {};
-
     InfoRowView.prototype.selectInfo = function() {
       return Dispatcher.trigger("info:selected", this.model);
     };

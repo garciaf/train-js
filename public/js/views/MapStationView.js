@@ -3,19 +3,14 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, Dispatcher, MapStationView, MapView, SearchView, StationCollection, StationView, TableStationView, jhere, mainTemplate, mapTemplate, stationTableTemplate, _;
+  var $, Backbone, Dispatcher, MapStationView, MapView, SearchView, TableStationView, mainTemplate, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
-  jhere = require('jhere');
-  StationCollection = require('collections/StationCollection');
-  mapTemplate = require('hbs!templates/station/map');
   mainTemplate = require('hbs!templates/station/main');
-  StationView = require('views/StationView');
   SearchView = require('views/SearchView');
   MapView = require('views/MapView');
   TableStationView = require('views/TableStationView');
-  stationTableTemplate = require('hbs!templates/station/tableStation');
   Dispatcher = require('event');
   (function() {});
   return MapStationView = (function(_super) {
@@ -26,14 +21,9 @@ define(function(require) {
       return MapStationView.__super__.constructor.apply(this, arguments);
     }
 
-    MapStationView.prototype.el = 'section';
+    MapStationView.prototype.el = '#mapView';
 
     MapStationView.prototype.initialize = function(opts) {
-      this.SelectedStation = opts.SelectedStation;
-      this.SelectedStation.on("change", this.changeStation, this);
-      this.collection = opts.collection;
-      this.collectionDisplayed = opts.collectionDisplayed;
-      this.collection.once("reset", this.copyCollection, this);
       Dispatcher.on("station:selected", this.changeStation, this);
       Dispatcher.on("search:complete", this.syncDisplayed, this);
       return this.render();
@@ -41,30 +31,15 @@ define(function(require) {
 
     MapStationView.prototype.render = function() {
       this.$el.html(mainTemplate());
-      this.tableStationView = new TableStationView({
-        collection: this.collectionDisplayed
-      }).setElement(this.$el.find("#stations")).render();
+      this.tableStationView = new TableStationView().setElement($("#stations"));
       this.searchView = new SearchView({
-        collectionDisplayed: this.collectionDisplayed,
         collection: this.collection
       });
-      this.mapView = new MapView({
-        collection: this.collection
-      }).setElement(this.$el.find("#graph")).render();
-      return this.collection.fetch();
+      return this.mapView = new MapView().setElement($("#map")).render();
     };
 
     MapStationView.prototype.changeStation = function(station) {
-      $("#station").html(station.get("name"));
-      return this.SelectedStation.set(station.toJSON());
-    };
-
-    MapStationView.prototype.copyCollection = function() {
-      return this.collectionDisplayed.reset(this.collection.models);
-    };
-
-    MapStationView.prototype.syncDisplayed = function(searchResult) {
-      return this.collectionDisplayed.reset(searchResult);
+      return $("#station").html(station.get("name"));
     };
 
     MapStationView;

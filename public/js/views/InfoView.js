@@ -3,10 +3,11 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, InfoCollection, InfoRowView, InfoView, TableStationView, stationTableTemplate, tableTemplate, _;
+  var $, Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, TableStationView, stationTableTemplate, tableTemplate, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
+  Dispatcher = require('event');
   InfoCollection = require('collections/InfoCollection');
   tableTemplate = require('hbs!templates/info/tableInfo');
   InfoRowView = require('views/InfoRowView');
@@ -21,17 +22,24 @@ define(function(require) {
       return InfoView.__super__.constructor.apply(this, arguments);
     }
 
-    InfoView.prototype.el = '#content';
-
     InfoView.prototype.initialize = function(opts) {
       this.rowViews = [];
       this.type = opts.type;
+      if (this.type === "A") {
+        this.setElement($("#arrivalView"));
+      } else {
+        this.setElement($("#departView"));
+      }
       this.model = opts.model;
       this.collection = new InfoCollection();
       this.collection.on("reset", this.render, this);
+      return Dispatcher.on("station:selected", this.populateData, this);
+    };
+
+    InfoView.prototype.populateData = function(model) {
       return this.collection.fetch({
         data: {
-          code: this.model.get('code_ddg')
+          code: model.get('code_ddg')
         }
       });
     };

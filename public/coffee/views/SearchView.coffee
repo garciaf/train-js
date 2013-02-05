@@ -16,8 +16,9 @@ define (require) ->
 
     initialize: (opts) ->
       @search = $("#search")
-      @collectionDisplayed = opts.collectionDisplayed
-      @collection = opts.collection
+      @collection = new StationCollection()
+      @collection.on "reset", @searchStation, @
+      @collection.fetch()
 
 
     searchStation: ->

@@ -6,8 +6,6 @@ define (require) ->
   AppView     = require 'views/misc/app'
   MapStationView = require 'views/MapStationView'
   InfoView    = require 'views/InfoView'
-  StationModel = require 'models/StationModel'
-  StationCollection = require 'collections/StationCollection'
 
   ->
 
@@ -27,29 +25,28 @@ define (require) ->
     home: ->
 
     arrival: ->
-      @infoView = new InfoView(
-        model: @SelectedStation
-        type: "A"
-      )
+      @arrivalInfoView.$el.show()
+      @departureInfoView.$el.hide()
+      @mapView?.$el.hide()
     departure: ->
-      @infoView = new InfoView(
-        model: @SelectedStation
-        type: "D"
-      )
+      @departureInfoView.$el.show()
+      @arrivalInfoView.$el.hide()
+      @mapView?.$el.hide()
     map: ->
       unless @mapView?
-        @mapView = new MapStationView(
-          collection: @collection
-          collectionDisplayed: @collectionDisplayed
-          SelectedStation: @SelectedStation
-        )
-      else @mapView.render()        
+        @mapView = new MapStationView()
+      else 
+        @mapView.$el.show()
+      @departureInfoView.$el.hide()
+      @arrivalInfoView.$el.hide()
 
     initialize: ->
-      @SelectedStation = new StationModel()
-      @collection = new StationCollection()
-      @collectionDisplayed = new StationCollection()      
-
+      @departureInfoView = new InfoView(
+          type: "D"
+        )
+      @arrivalInfoView = new InfoView(
+          type: "A"
+        )
       @appView = new AppView
 
       # Enable pushState for compatible browsers

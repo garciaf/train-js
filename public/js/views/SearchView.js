@@ -26,8 +26,9 @@ define(function(require) {
 
     SearchView.prototype.initialize = function(opts) {
       this.search = $("#search");
-      this.collectionDisplayed = opts.collectionDisplayed;
-      return this.collection = opts.collection;
+      this.collection = new StationCollection();
+      this.collection.on("reset", this.searchStation, this);
+      return this.collection.fetch();
     };
 
     SearchView.prototype.searchStation = function() {

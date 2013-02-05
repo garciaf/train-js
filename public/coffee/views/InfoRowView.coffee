@@ -3,7 +3,6 @@ define (require) ->
   $           = require 'jquery'
   _           = require 'underscore'
   Backbone    = require 'backbone'
-  # require "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"
   rowTemplate    = require 'hbs!templates/info/rowInfo'
   Dispatcher  = require 'event'
 
@@ -14,8 +13,6 @@ define (require) ->
     tagName:  "tr"
     events:
       "click": "selectInfo"
-
-    initialize: (opts) ->
     
     selectInfo: ->
       Dispatcher.trigger "info:selected", @model

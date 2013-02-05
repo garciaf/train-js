@@ -3,12 +3,12 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, Dispatcher, MapView, jhere, stationRowTemplate, _;
+  var $, Backbone, Dispatcher, MapView, jhere, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
+  Dispatcher = require('event');
   jhere = require('jhere');
-  stationRowTemplate = require('hbs!templates/station/rowStation');
   Dispatcher = require('event');
   (function() {});
   return MapView = (function(_super) {
@@ -20,9 +20,7 @@ define(function(require) {
     }
 
     MapView.prototype.initialize = function(opts) {
-      this.map = {};
-      this.displayMarker();
-      this.collection.once("reset", this.displayMarker, this);
+      Dispatcher.once("search:complete", this.displayMarker, this);
       Dispatcher.on("station:selected", this.centerMap, this);
       return Dispatcher.on("station:hover", this.addBubbles, this);
     };
@@ -38,11 +36,10 @@ define(function(require) {
       return $("#map").jHERE('center', station.getPosition());
     };
 
-    MapView.prototype.displayMarker = function() {
+    MapView.prototype.displayMarker = function(stations) {
       var _this = this;
-      this.collection.forEach(function(station) {
-        _this.positionObject = [station.get('x'), station.get('y')];
-        return $("#map").jHERE('marker', _this.positionObject, {
+      stations.forEach(function(station) {
+        return $("#map").jHERE('marker', station.getPosition(), {
           click: function(e) {
             return Dispatcher.trigger("station:selected", station);
           }
@@ -50,8 +47,6 @@ define(function(require) {
       });
       return false;
     };
-
-    MapView.prototype.popUpBubbles = function() {};
 
     MapView.prototype.render = function() {
       this.map = $("#map").jHERE({

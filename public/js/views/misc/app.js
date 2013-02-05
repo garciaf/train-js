@@ -19,13 +19,12 @@ define(function(require) {
 
     AppView.prototype.initialize = function(opts) {
       _.bindAll(this);
-      return Dispatcher.on("info:selected", this.displayInfo);
+      return Dispatcher.on("info:selected", this.displayInfoInLoop);
     };
 
-    AppView.prototype.displayInfo = function(info) {
-      var date, destination,
+    AppView.prototype.displayInfoInLoop = function(info) {
+      var destination,
         _this = this;
-      date = info.get('retard') ? info.getDelay() : info.getWhen();
       destination = info.get('origdest');
       if (this.intervalID != null) {
         clearInterval(this.intervalID);
@@ -33,15 +32,6 @@ define(function(require) {
       return this.intervalID = setInterval(function() {
         return $("#info").html("" + destination + ":  " + (info.getTimeremaining()));
       }, 1000);
-    };
-
-    AppView.prototype.showView = function(view) {
-      if (this.currentView != null) {
-        this.currentView.close();
-      }
-      this.currentView = view;
-      this.currentView.render();
-      return $('#page').html(this.currentView.el);
     };
 
     return AppView;

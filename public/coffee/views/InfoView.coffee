@@ -3,7 +3,7 @@ define (require) ->
   $           = require 'jquery'
   _           = require 'underscore'
   Backbone    = require 'backbone'
-  # require "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"
+  Dispatcher  = require 'event'
   InfoCollection = require 'collections/InfoCollection'
   tableTemplate    = require 'hbs!templates/info/tableInfo'
   InfoRowView = require 'views/InfoRowView'
@@ -13,19 +13,24 @@ define (require) ->
 
   class InfoView extends Backbone.View
 
-    el: '#content'
-
     initialize: (opts) ->
       @rowViews = []
       @type = opts.type
+      if @type is "A"
+        @setElement $("#arrivalView")
+      else
+        @setElement $("#departView")
       @model = opts.model
       @collection = new InfoCollection()
       @collection.on "reset", @render, @
+      Dispatcher.on "station:selected", @populateData, @
+    
+    populateData: (model) ->
       @collection.fetch(
         data:
-          code: @model.get('code_ddg')
+          code: model.get('code_ddg')
       )
-
+    
     render: ->
       @infos = new InfoCollection(@collection.toJSON()[0][@type])
       @$el.html(tableTemplate())

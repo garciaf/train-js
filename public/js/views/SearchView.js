@@ -24,7 +24,7 @@ define(function(require) {
       "keyup #search": "searchStation"
     };
 
-    SearchView.prototype.initialize = function(opts) {
+    SearchView.prototype.initialize = function() {
       this.search = $("#search");
       this.collection = new StationCollection();
       this.collection.on("reset", this.searchStation, this);

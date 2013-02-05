@@ -42,6 +42,16 @@ define(function(require) {
       return $("#station").html(station.get("name"));
     };
 
+    MapStationView.prototype.hide = function() {
+      return this.$el.hide();
+    };
+
+    MapStationView.prototype.show = function() {
+      $("ul.nav li").removeClass("active");
+      $($("ul.nav li")[0]).addClass("active");
+      return this.$el.fadeIn();
+    };
+
     MapStationView;
 
 

@@ -14,7 +14,7 @@ define (require) ->
     events:
       "keyup #search": "searchStation"
 
-    initialize: (opts) ->
+    initialize: ->
       @search = $("#search")
       @collection = new StationCollection()
       @collection.on "reset", @searchStation, @

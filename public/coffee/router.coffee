@@ -16,31 +16,30 @@ define (require) ->
     routes:
 
       # When there is no url, the home method is called
-      "": "home"
       "arrivals": "arrival"
       "departure": "departure"
       "map": "map"
+      "*actions": "map"
 
 
     home: ->
 
     arrival: ->
-      @arrivalInfoView.$el.show()
-      @departureInfoView.$el.hide()
-      @mapView?.$el.hide()
+      @arrivalInfoView.show()
+      @departureInfoView.hide()
+      @mapView.hide()
     departure: ->
-      @departureInfoView.$el.show()
-      @arrivalInfoView.$el.hide()
-      @mapView?.$el.hide()
+      @departureInfoView.show()
+      @arrivalInfoView.hide()
+      @mapView.hide()
     map: ->
-      unless @mapView?
-        @mapView = new MapStationView()
-      else 
-        @mapView.$el.show()
-      @departureInfoView.$el.hide()
-      @arrivalInfoView.$el.hide()
+      @mapView.show()
+      @departureInfoView.hide()
+      @arrivalInfoView.hide()
 
     initialize: ->
+      @mapView = new MapStationView()
+
       @departureInfoView = new InfoView(
           type: "D"
         )

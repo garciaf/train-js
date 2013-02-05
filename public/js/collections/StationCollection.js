@@ -26,9 +26,10 @@ define(function(require) {
         _this = this;
       lowValue = value.toLowerCase();
       result = this.filter(function(station) {
-        var lowStationName;
+        var lowStationCode, lowStationName;
         lowStationName = station.get('name').toLowerCase();
-        if (lowStationName.indexOf(lowValue) === -1) {
+        lowStationCode = station.get('code_ddg').toLowerCase();
+        if (lowStationName.indexOf(lowValue) === -1 && lowStationCode.indexOf(lowValue) === -1) {
           return false;
         }
         return true;

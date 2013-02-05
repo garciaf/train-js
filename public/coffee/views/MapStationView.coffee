@@ -31,5 +31,14 @@ define (require) ->
 
     changeStation: (station) ->
       $("#station").html(station.get("name"))
+    
+    
+    hide: ->
+      @$el.hide()
+    
+    show: ->
+      $("ul.nav li").removeClass("active")
+      $($("ul.nav li")[0]).addClass("active")
+      @$el.fadeIn()
 
     MapStationView

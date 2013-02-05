@@ -56,6 +56,20 @@ define(function(require) {
       });
     };
 
+    InfoView.prototype.hide = function() {
+      return this.$el.hide();
+    };
+
+    InfoView.prototype.show = function() {
+      $("ul.nav li").removeClass("active");
+      if (this.type === "A") {
+        $($("ul.nav li")[2]).addClass("active");
+      } else {
+        $($("ul.nav li")[1]).addClass("active");
+      }
+      return this.$el.fadeIn();
+    };
+
     InfoView;
 
 

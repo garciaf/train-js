@@ -20,40 +20,35 @@ define(function(require) {
     }
 
     Router.prototype.routes = {
-      "": "home",
       "arrivals": "arrival",
       "departure": "departure",
-      "map": "map"
+      "map": "map",
+      "*actions": "map"
     };
 
     Router.prototype.home = function() {};
 
     Router.prototype.arrival = function() {
-      var _ref;
-      this.arrivalInfoView.$el.show();
-      this.departureInfoView.$el.hide();
-      return (_ref = this.mapView) != null ? _ref.$el.hide() : void 0;
+      this.arrivalInfoView.show();
+      this.departureInfoView.hide();
+      return this.mapView.hide();
     };
 
     Router.prototype.departure = function() {
-      var _ref;
-      this.departureInfoView.$el.show();
-      this.arrivalInfoView.$el.hide();
-      return (_ref = this.mapView) != null ? _ref.$el.hide() : void 0;
+      this.departureInfoView.show();
+      this.arrivalInfoView.hide();
+      return this.mapView.hide();
     };
 
     Router.prototype.map = function() {
-      if (this.mapView == null) {
-        this.mapView = new MapStationView();
-      } else {
-        this.mapView.$el.show();
-      }
-      this.departureInfoView.$el.hide();
-      return this.arrivalInfoView.$el.hide();
+      this.mapView.show();
+      this.departureInfoView.hide();
+      return this.arrivalInfoView.hide();
     };
 
     Router.prototype.initialize = function() {
       var enablePushState, pushState;
+      this.mapView = new MapStationView();
       this.departureInfoView = new InfoView({
         type: "D"
       });

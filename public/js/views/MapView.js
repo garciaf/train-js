@@ -40,6 +40,11 @@ define(function(require) {
       var _this = this;
       stations.forEach(function(station) {
         return $("#map").jHERE('marker', station.getPosition(), {
+          icon: 'img/steamtrain.png',
+          anchor: {
+            x: 12,
+            y: 30
+          },
           click: function(e) {
             return Dispatcher.trigger("station:selected", station);
           }

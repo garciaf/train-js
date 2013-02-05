@@ -39,5 +39,17 @@ define (require) ->
           model: info
         )
         @$el.find('tbody').append(@rowViews[key].render().el)
+    
+    hide: ->
+      @$el.hide()
+
+    show: ->
+      $("ul.nav li").removeClass("active")
+      if @type is "A"
+        $($("ul.nav li")[2]).addClass("active")
+      else
+        $($("ul.nav li")[1]).addClass("active")
+
+      @$el.fadeIn()
 
     InfoView

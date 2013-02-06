@@ -5,6 +5,7 @@ define (require) ->
   Backbone    = require 'backbone'
   AppView     = require 'views/misc/app'
   MapStationView = require 'views/MapStationView'
+  Dispatcher  = require 'event'
   InfoView    = require 'views/InfoView'
 
   ->
@@ -48,6 +49,7 @@ define (require) ->
         )
       @appView = new AppView
 
+      Dispatcher.on "search:complete" ,  @map, @
       # Enable pushState for compatible browsers
       enablePushState = false
 

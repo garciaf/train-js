@@ -3,12 +3,13 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, AppView, Backbone, InfoView, MapStationView, Router, _;
+  var $, AppView, Backbone, Dispatcher, InfoView, MapStationView, Router, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   AppView = require('views/misc/app');
   MapStationView = require('views/MapStationView');
+  Dispatcher = require('event');
   InfoView = require('views/InfoView');
   (function() {});
   return Router = (function(_super) {
@@ -56,6 +57,7 @@ define(function(require) {
         type: "A"
       });
       this.appView = new AppView;
+      Dispatcher.on("search:complete", this.map, this);
       enablePushState = false;
       pushState = !!(enablePushState && window.history && window.history.pushState);
       return Backbone.history.start({

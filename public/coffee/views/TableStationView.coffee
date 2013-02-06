@@ -14,7 +14,7 @@ define (require) ->
       @rowViews = []
       Dispatcher.on "search:complete", @render, @
 
-    render: (collection)->
+    render: (model, collection)->
       @$el.html(stationTableTemplate())
 
       collection.forEach (station, key) => 

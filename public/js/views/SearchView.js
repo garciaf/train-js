@@ -32,7 +32,12 @@ define(function(require) {
     };
 
     SearchView.prototype.searchStation = function() {
-      return Dispatcher.trigger("search:complete", this.collection.findPerName(this.search.val()));
+      var collection;
+      collection = this.collection.findPerName(this.search.val());
+      if (collection[0] != null) {
+        this.firstResult = collection[0];
+      }
+      return Dispatcher.trigger("search:complete", this.firstResult, this.collection.findPerName(this.search.val()));
     };
 
     SearchView;

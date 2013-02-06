@@ -30,26 +30,26 @@ define(function(require) {
     MapStationView.prototype.changeSize = function() {
       if (!this.fullScreen) {
         this.fullScreen = true;
-        return this.turnMapFullScreen();
+        return this.turnMapFullScreen($(window).height());
       } else {
         this.fullScreen = false;
         return this.turnMapRegularSize();
       }
     };
 
-    MapStationView.prototype.turnMapFullScreen = function() {
-      return $("#map").css("height", $(window).height());
+    MapStationView.prototype.turnMapFullScreen = function(windowsHeight) {
+      return $("#map").css("height", windowsHeight);
     };
 
     MapStationView.prototype.turnMapRegularSize = function() {
       return $("#map").css("height", this.mapHeight);
     };
 
-    MapStationView.prototype.updateSizeMap = function() {
+    MapStationView.prototype.updateSizeMap = function(windowsHeight) {
       if (!this.fullScreen) {
         return this.turnMapRegularSize();
       } else {
-        return this.turnMapFullScreen();
+        return this.turnMapFullScreen(windowsHeight);
       }
     };
 

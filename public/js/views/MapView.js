@@ -21,6 +21,7 @@ define(function(require) {
 
     MapView.prototype.initialize = function(opts) {
       Dispatcher.once("search:complete", this.displayMarker, this);
+      Dispatcher.on("search:complete", this.centerMap, this);
       Dispatcher.on("station:selected", this.centerMap, this);
       return Dispatcher.on("station:hover", this.addBubbles, this);
     };
@@ -33,10 +34,11 @@ define(function(require) {
     };
 
     MapView.prototype.centerMap = function(station) {
+      console.log(station);
       return $("#map").jHERE('center', station.getPosition());
     };
 
-    MapView.prototype.displayMarker = function(stations) {
+    MapView.prototype.displayMarker = function(firstStation, stations) {
       var _this = this;
       stations.forEach(function(station) {
         return $("#map").jHERE('marker', station.getPosition(), {

@@ -22,6 +22,9 @@ define (require) ->
 
 
     searchStation: ->
-      Dispatcher.trigger "search:complete", @collection.findPerName(@search.val())
+      collection = @collection.findPerName(@search.val())
+      if collection[0]?
+        @firstResult = collection[0]
+      Dispatcher.trigger "search:complete", @firstResult, @collection.findPerName(@search.val())
 
     SearchView

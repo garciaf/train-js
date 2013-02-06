@@ -852,8 +852,13 @@ a.label:hover,a.badge:hover{color:#ffffff;text-decoration:none;cursor:pointer;}
 .show{display:block;}
 .invisible{visibility:hidden;}
 .affix{position:fixed;}
+#content{height:600px;}
+#mapView{height:100%;}
+#departView{height:100%;}
 #map{height:200px;margin-top:-20px;}
+#updates{position:absolute;right:20px;bottom:20px;}
 #fullscreen{z-index:40;display:block;position:relative;left:20px;top:40px;}
+#stations{height:70%;}
 .row table{margin-top:20px;display:block;width:100%;height:99%;}
 .row thead{z-index:5;display:block;box-shadow:0 0.425rem 0.45rem -0.425rem #606060;box-sizing:border-box;}
 .row tbody{display:block;overflow-y:scroll;overflow-x:hidden;width:934px;max-height:400px;}

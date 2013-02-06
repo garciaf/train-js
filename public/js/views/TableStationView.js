@@ -24,7 +24,7 @@ define(function(require) {
       return Dispatcher.on("search:complete", this.render, this);
     };
 
-    TableStationView.prototype.render = function(collection) {
+    TableStationView.prototype.render = function(model, collection) {
       var _this = this;
       this.$el.html(stationTableTemplate());
       return collection.forEach(function(station, key) {

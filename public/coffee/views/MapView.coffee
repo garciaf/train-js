@@ -14,6 +14,7 @@ define (require) ->
 
     initialize: (opts) ->      
       Dispatcher.once "search:complete", @displayMarker, @
+      Dispatcher.on "search:complete", @centerMap, @
       Dispatcher.on "station:selected",  @centerMap, @
       Dispatcher.on "station:hover",  @addBubbles, @
 
@@ -21,8 +22,9 @@ define (require) ->
       $("#map").jHERE 'center', station.getPosition()
       $("#map").jHERE 'bubble', station.getPosition(), content: station.get('name')
     centerMap: (station) ->
+      console.log station
       $("#map").jHERE 'center', station.getPosition()
-    displayMarker: (stations) ->
+    displayMarker: (firstStation, stations) ->
       stations.forEach (station) =>
         $("#map").jHERE 'marker', station.getPosition(),  {icon: 'img/steamtrain.png', anchor: {x: 12, y: 30},  click: (e) => Dispatcher.trigger "station:selected", station }
       return false

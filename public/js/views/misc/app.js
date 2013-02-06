@@ -18,12 +18,17 @@ define(function(require) {
     }
 
     AppView.prototype.initialize = function(opts) {
-      var _this = this;
       _.bindAll(this);
       $(window).resize(function() {
-        return Dispatcher.trigger("window:resized");
+        return Dispatcher.trigger("window:resized", $(this).height());
       });
-      return Dispatcher.on("info:selected", this.displayInfoInLoop);
+      Dispatcher.on("info:selected", this.displayInfoInLoop, this);
+      Dispatcher.on("window:resized", this.resizeContent, this);
+      return this.resizeContent($(window).height());
+    };
+
+    AppView.prototype.resizeContent = function(windowHeight) {
+      return $("#content").css("height", windowHeight - 80);
     };
 
     AppView.prototype.displayInfoInLoop = function(info) {

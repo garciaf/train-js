@@ -10,9 +10,15 @@ define (require) ->
 
     initialize: (opts) ->
       _.bindAll @
-      $(window).resize =>
-        Dispatcher.trigger "window:resized"
-      Dispatcher.on "info:selected", @displayInfoInLoop
+      $(window).resize ->
+        Dispatcher.trigger "window:resized", $(@).height()
+      Dispatcher.on "info:selected", @displayInfoInLoop, @
+      Dispatcher.on "window:resized", @resizeContent, @
+      @resizeContent($(window).height())
+
+    resizeContent: (windowHeight) ->
+      $("#content").css("height", windowHeight-80)
+
 
     displayInfoInLoop: (info) ->
       destination = info.get('origdest')

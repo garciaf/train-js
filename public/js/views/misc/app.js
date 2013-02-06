@@ -18,7 +18,11 @@ define(function(require) {
     }
 
     AppView.prototype.initialize = function(opts) {
+      var _this = this;
       _.bindAll(this);
+      $(window).resize(function() {
+        return Dispatcher.trigger("window:resized");
+      });
       return Dispatcher.on("info:selected", this.displayInfoInLoop);
     };
 

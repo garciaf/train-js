@@ -10,7 +10,8 @@ define (require) ->
 
     initialize: (opts) ->
       _.bindAll @
-
+      $(window).resize =>
+        Dispatcher.trigger "window:resized"
       Dispatcher.on "info:selected", @displayInfoInLoop
 
     displayInfoInLoop: (info) ->

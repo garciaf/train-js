@@ -48,11 +48,10 @@ define(function(require) {
         clearInterval(this.intervalID);
       }
       return this.intervalID = setInterval(function() {
-        var duration;
+        var duration, hours;
         duration = info.getTimeremaining();
-        console.log(duration.minutes());
-        console.log(duration.seconds());
-        return _this.$el.html("<i class='icon-resize-horizontal'></i> " + destination + " " + (duration.minutes()) + ": " + (duration.seconds()));
+        hours = duration.hours() !== 0 ? "" + (duration.hours()) + ":" : "";
+        return _this.$el.html("<i class='icon-resize-horizontal'></i> " + destination + " " + hours + (duration.minutes()) + ": " + (duration.seconds()));
       }, 1000);
     };
 

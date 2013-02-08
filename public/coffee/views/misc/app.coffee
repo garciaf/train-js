@@ -29,9 +29,8 @@ define (require) ->
       if @intervalID? then clearInterval(@intervalID)
       @intervalID = setInterval( () =>
         duration = info.getTimeremaining()
-        console.log duration.minutes()
-        console.log duration.seconds()
-        @$el.html("<i class='icon-resize-horizontal'></i> #{destination} #{duration.minutes()}: #{duration.seconds()}")  
+        hours = if duration.hours() isnt 0 then "#{duration.hours()}:" else ""
+        @$el.html("<i class='icon-resize-horizontal'></i> #{destination} #{hours}#{duration.minutes()}: #{duration.seconds()}")  
       , 1000)
         
 

@@ -38,9 +38,6 @@ define(function(require) {
       return this;
     };
 
-    StationView;
-
-
     return StationView;
 
   })(Backbone.View);

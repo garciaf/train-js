@@ -10,13 +10,10 @@ define (require) ->
 
   ->
 
-  # The main router for the whole app
   class Router extends Backbone.Router
     
-    # All of your Backbone Routes (add more)
     routes:
 
-      # When there is no url, the home method is called
       "arrivals": "arrival"
       "departure": "departure"
       "map": "map"
@@ -49,16 +46,7 @@ define (require) ->
         )
       @appView = new AppView
 
-      Dispatcher.on "search:complete" ,  @map, @
-      # Enable pushState for compatible browsers
       enablePushState = false
 
-      # Disable for older browsers
       pushState = !!(enablePushState && window.history && window.history.pushState)
-
-      # Tells Backbone to start watching for hashchange events
       Backbone.history.start({pushState: pushState})        
-
-
-    # Returns the Router class
-    Router

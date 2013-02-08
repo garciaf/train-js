@@ -14,17 +14,24 @@ define (require) ->
         Dispatcher.trigger "window:resized", $(@).height()
       Dispatcher.on "info:selected", @displayInfoInLoop, @
       Dispatcher.on "window:resized", @resizeContent, @
+      Dispatcher.on "station:selected",  @removeInfo, @
+      @setElement($("#info"))
       @resizeContent($(window).height())
 
     resizeContent: (windowHeight) ->
       $("#content").css("height", windowHeight-80)
 
-
+    removeInfo: ->
+      if @intervalID? then clearInterval(@intervalID)      
+      @$el.html('')
     displayInfoInLoop: (info) ->
       destination = info.get('origdest')
       if @intervalID? then clearInterval(@intervalID)
       @intervalID = setInterval( () =>
-        $("#info").html("#{destination}:  #{info.getTimeremaining()}")  
+        duration = info.getTimeremaining()
+        console.log duration.minutes()
+        console.log duration.seconds()
+        @$el.html("<i class='icon-resize-horizontal'></i> #{destination} #{duration.minutes()}: #{duration.seconds()}")  
       , 1000)
         
 

@@ -25,6 +25,10 @@ define(function(require) {
       return [this.get('x'), this.get('y')];
     };
 
+    StationModel.prototype.getNameToDisplay = function() {
+      return "" + (this.get('name'));
+    };
+
     StationModel;
 
 

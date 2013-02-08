@@ -22,7 +22,6 @@ define (require) ->
       $("#map").jHERE 'center', station.getPosition()
       $("#map").jHERE 'bubble', station.getPosition(), content: station.get('name')
     centerMap: (station) ->
-      console.log station
       $("#map").jHERE 'center', station.getPosition()
     displayMarker: (firstStation, stations) ->
       stations.forEach (station) =>
@@ -35,4 +34,3 @@ define (require) ->
         authToken: "vR2pZ6q3EMnE3PX6fqt9uw"
       )
       return @
-    MapView

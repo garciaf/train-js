@@ -15,11 +15,13 @@
       </ul>
       <form class="navbar-search pull-left">
         <div class="input-append">
-            <input type="text" id="search" class="search-query" placeholder="search" >
+            <input type="text" autocomplete="off" id="search" class="search-query" placeholder="search" data-provide="typeahead" >
         </div>
       </form>
-      <a class="brand" id="station"></a>
-      <a class="label label-important" id="info"></a>
+      <div class="main-timer">
+        <span  id="station"></span>
+        <span  id="info"></span>
+      </div>
     </div>
   </header>
   <section id="content">

@@ -55,8 +55,6 @@ define(function(require) {
 
     MapStationView.prototype.initialize = function(opts) {
       Dispatcher.on("station:selected", this.changeStation, this);
-      Dispatcher.on("search:complete", this.syncDisplayed, this);
-      Dispatcher.on("search:complete", this.turnMapRegularSize, this);
       Dispatcher.on("window:resized", this.updateSizeMap, this);
       this.render();
       this.fullScreen = false;
@@ -66,14 +64,12 @@ define(function(require) {
     MapStationView.prototype.render = function() {
       this.$el.html(mainTemplate());
       this.tableStationView = new TableStationView().setElement($("#stations"));
-      this.searchView = new SearchView({
-        collection: this.collection
-      });
+      this.searchView = new SearchView;
       return this.mapView = new MapView().setElement($("#map")).render();
     };
 
     MapStationView.prototype.changeStation = function(station) {
-      return $("#station").html(station.get("name"));
+      return $("#station").html(station.getNameToDisplay());
     };
 
     MapStationView.prototype.hide = function() {
@@ -85,9 +81,6 @@ define(function(require) {
       $($("ul.nav li")[0]).addClass("active");
       return this.$el.fadeIn();
     };
-
-    MapStationView;
-
 
     return MapStationView;
 

@@ -12,8 +12,8 @@ define (require) ->
       y: 0
     getTimeremaining: ->
       to = if !!@get('retard') then @getDelayTime() else @getWhenTime()
-      console.log 
-      return to.from(moment(new Date()))
+      return moment.duration(to.diff(new Date()))
+      # return to.from(moment(new Date()))
     
     getWhenTime: ->
       return moment(@get('heure'))

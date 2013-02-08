@@ -34,7 +34,6 @@ define(function(require) {
     };
 
     MapView.prototype.centerMap = function(station) {
-      console.log(station);
       return $("#map").jHERE('center', station.getPosition());
     };
 
@@ -62,9 +61,6 @@ define(function(require) {
       });
       return this;
     };
-
-    MapView;
-
 
     return MapView;
 

@@ -22,6 +22,3 @@ define (require) ->
           model: station
         )
         @$el.find('tbody').append(@rowViews[key].render().el)
-      
-    # Returns the Router class
-    TableStationView

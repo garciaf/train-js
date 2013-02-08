@@ -36,9 +36,6 @@ define(function(require) {
       return this;
     };
 
-    InfoRowView;
-
-
     return InfoRowView;
 
   })(Backbone.View);

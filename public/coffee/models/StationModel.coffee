@@ -12,5 +12,6 @@ define (require) ->
     # Returns the Router class
     getPosition: () ->
       return [@get('x'), @get('y')]
-
+    getNameToDisplay: ()->
+      return "#{@get('name')}"
     StationModel

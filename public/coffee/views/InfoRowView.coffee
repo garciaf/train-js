@@ -20,6 +20,4 @@ define (require) ->
       @$el.html(rowTemplate(@model.toJSON()))
       if !!@model.get("retard")
         @$el.addClass("warning")
-      return @      
-    
-    InfoRowView
+      return @

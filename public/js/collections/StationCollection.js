@@ -21,15 +21,20 @@ define(function(require) {
 
     StationCollection.prototype.model = StationModel;
 
+    StationCollection.prototype.getSearchValues = function() {
+      return this.map(function(station) {
+        return station.get('name');
+      });
+    };
+
     StationCollection.prototype.findPerName = function(value) {
       var lowValue, result,
         _this = this;
       lowValue = value.toLowerCase();
       result = this.filter(function(station) {
-        var lowStationCode, lowStationName;
+        var lowStationName;
         lowStationName = station.get('name').toLowerCase();
-        lowStationCode = station.get('code_ddg').toLowerCase();
-        if (lowStationName.indexOf(lowValue) === -1 && lowStationCode.indexOf(lowValue) === -1) {
+        if (lowStationName.indexOf(lowValue) === -1) {
           return false;
         }
         return true;

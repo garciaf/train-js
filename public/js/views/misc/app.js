@@ -24,11 +24,20 @@ define(function(require) {
       });
       Dispatcher.on("info:selected", this.displayInfoInLoop, this);
       Dispatcher.on("window:resized", this.resizeContent, this);
+      Dispatcher.on("station:selected", this.removeInfo, this);
+      this.setElement($("#info"));
       return this.resizeContent($(window).height());
     };
 
     AppView.prototype.resizeContent = function(windowHeight) {
       return $("#content").css("height", windowHeight - 80);
+    };
+
+    AppView.prototype.removeInfo = function() {
+      if (this.intervalID != null) {
+        clearInterval(this.intervalID);
+      }
+      return this.$el.html('');
     };
 
     AppView.prototype.displayInfoInLoop = function(info) {
@@ -39,7 +48,11 @@ define(function(require) {
         clearInterval(this.intervalID);
       }
       return this.intervalID = setInterval(function() {
-        return $("#info").html("" + destination + ":  " + (info.getTimeremaining()));
+        var duration;
+        duration = info.getTimeremaining();
+        console.log(duration.minutes());
+        console.log(duration.seconds());
+        return _this.$el.html("<i class='icon-resize-horizontal'></i> " + destination + " " + (duration.minutes()) + ": " + (duration.seconds()));
       }, 1000);
     };
 

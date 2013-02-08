@@ -9,6 +9,7 @@ define(function(require) {
   Backbone = require('backbone');
   StationCollection = require('collections/StationCollection');
   Dispatcher = require('event');
+  require('bootstrap');
   (function() {});
   return SearchView = (function(_super) {
 
@@ -21,14 +22,22 @@ define(function(require) {
     SearchView.prototype.el = 'body';
 
     SearchView.prototype.events = {
-      "keyup #search": "searchStation"
+      "change #search": "searchStation",
+      "blur #search": "searchStation"
     };
 
     SearchView.prototype.initialize = function() {
       this.search = $("#search");
       this.collection = new StationCollection();
       this.collection.on("reset", this.searchStation, this);
+      this.collection.once("reset", this.initTypeahead, this);
       return this.collection.fetch();
+    };
+
+    SearchView.prototype.initTypeahead = function() {
+      return this.search.typeahead({
+        source: this.collection.getSearchValues()
+      });
     };
 
     SearchView.prototype.searchStation = function() {
@@ -37,11 +46,11 @@ define(function(require) {
       if (collection[0] != null) {
         this.firstResult = collection[0];
       }
+      if (collection.length === 1) {
+        Dispatcher.trigger("station:selected", this.firstResult);
+      }
       return Dispatcher.trigger("search:complete", this.firstResult, this.collection.findPerName(this.search.val()));
     };
-
-    SearchView;
-
 
     return SearchView;
 

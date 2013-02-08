@@ -85,9 +85,6 @@ define(function(require) {
       return this.$el.fadeIn();
     };
 
-    InfoView;
-
-
     return InfoView;
 
   })(Backbone.View);

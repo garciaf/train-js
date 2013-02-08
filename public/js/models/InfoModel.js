@@ -25,8 +25,7 @@ define(function(require) {
     InfoModel.prototype.getTimeremaining = function() {
       var to;
       to = !!this.get('retard') ? this.getDelayTime() : this.getWhenTime();
-      console.log;
-      return to.from(moment(new Date()));
+      return moment.duration(to.diff(new Date()));
     };
 
     InfoModel.prototype.getWhenTime = function() {

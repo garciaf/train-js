@@ -64,5 +64,3 @@ define (require) ->
         $($("ul.nav li")[1]).addClass("active")
 
       @$el.fadeIn()
-
-    InfoView

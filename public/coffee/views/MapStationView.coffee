@@ -29,15 +29,15 @@ define (require) ->
 
     turnMapRegularSize: ->
       $("#map").css("height", @mapHeight)
+    
     updateSizeMap: (windowsHeight) ->
       unless @fullScreen
         @turnMapRegularSize()
       else
         @turnMapFullScreen(windowsHeight)
+    
     initialize: (opts) ->
       Dispatcher.on "station:selected", @changeStation, @
-      Dispatcher.on "search:complete", @syncDisplayed, @
-      Dispatcher.on "search:complete", @turnMapRegularSize, @
       Dispatcher.on "window:resized", @updateSizeMap, @
       @render()
       @fullScreen = false
@@ -48,14 +48,12 @@ define (require) ->
       @tableStationView = new TableStationView(
       ).setElement($("#stations"))
 
-      @searchView = new SearchView(
-        collection: @collection
-      )
+      @searchView = new SearchView
       @mapView = new MapView(
       ).setElement($("#map")).render()
 
     changeStation: (station) ->
-      $("#station").html(station.get("name"))
+      $("#station").html(station.getNameToDisplay())
     
     
     hide: ->
@@ -65,5 +63,3 @@ define (require) ->
       $("ul.nav li").removeClass("active")
       $($("ul.nav li")[0]).addClass("active")
       @$el.fadeIn()
-
-    MapStationView

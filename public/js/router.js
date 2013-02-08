@@ -57,16 +57,12 @@ define(function(require) {
         type: "A"
       });
       this.appView = new AppView;
-      Dispatcher.on("search:complete", this.map, this);
       enablePushState = false;
       pushState = !!(enablePushState && window.history && window.history.pushState);
       return Backbone.history.start({
         pushState: pushState
       });
     };
-
-    Router;
-
 
     return Router;
 

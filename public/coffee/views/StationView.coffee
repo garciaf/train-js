@@ -24,5 +24,3 @@ define (require) ->
     render: ->
       @$el.html(stationRowTemplate(@model.toJSON()))
       return @
-    # Returns the Router class
-    StationView

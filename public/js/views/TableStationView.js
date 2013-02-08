@@ -35,9 +35,6 @@ define(function(require) {
       });
     };
 
-    TableStationView;
-
-
     return TableStationView;
 
   })(Backbone.View);

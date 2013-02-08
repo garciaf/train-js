@@ -12,11 +12,16 @@ require.config({
     "handlebars": "vendors/Handlebars",
     "jhere": "vendors/jhere",
     "moment": "vendors/moment.min",
+    "bootstrap": "vendors/bootstrap",
     "templates": "../templates"
   },
   shim: {
     "underscore": {
       exports: "_"
+    },
+    "bootstrap": {
+      deps: ["jquery"],
+      exports: "$"
     },
     "jhere": {
       exports: "$",

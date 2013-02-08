@@ -1,10 +1,6 @@
-# Sets the require.js configuration for your application.
 require.config
 
-  # 3rd party script alias names (Easier to type "jquery" than "vendors/jquery-1.7.2.min")
   paths:
-    
-    # Core Libraries
     "modernizr": "vendors/modernizr"
     "jquery": "vendors/jquery"
     "underscore": "vendors/underscore-min"
@@ -15,11 +11,15 @@ require.config
     "handlebars": "vendors/Handlebars"
     "jhere": "vendors/jhere"
     "moment": "vendors/moment.min"
+    "bootstrap": "vendors/bootstrap"
     "templates": "../templates"
 
   shim:
     "underscore":
       exports: "_"
+    "bootstrap":
+      deps: ["jquery"]
+      exports: "$"      
     "jhere":
       exports: "$"
       deps: ["jquery"]
@@ -36,6 +36,4 @@ require.config
     "hbs/underscore": "underscore"
 
 require ["modernizr", "jquery", "backbone", "router"], (Modernizr, $, Backbone, Router) ->
-
-  # Instantiates a new Router
   @router = new Router()

@@ -5,6 +5,7 @@ require.config
     "jquery": "vendors/jquery"
     "underscore": "vendors/underscore-min"
     "backbone": "vendors/backbone-min"
+    "localstorage": "vendors/backbone.localStorage"
     "i18nprecompile" : "vendors/require-handlebars-plugin/hbs/i18nprecompile"
     "json2" : "vendors/require-handlebars-plugin/hbs/json2"
     "hbs": "vendors/require-handlebars-plugin/hbs"    
@@ -17,6 +18,9 @@ require.config
   shim:
     "underscore":
       exports: "_"
+    "localstorage":
+      deps: ["backbone"]
+      exports: "Backbone"
     "bootstrap":
       deps: ["jquery"]
       exports: "$"      

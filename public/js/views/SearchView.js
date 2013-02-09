@@ -3,13 +3,14 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, Dispatcher, SearchView, StationCollection, _;
+  var $, Backbone, Dispatcher, SearchView, StationCollection, UserModel, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   StationCollection = require('collections/StationCollection');
   Dispatcher = require('event');
   require('bootstrap');
+  UserModel = require('models/UserModel');
   (function() {});
   return SearchView = (function(_super) {
 
@@ -31,7 +32,34 @@ define(function(require) {
       this.collection = new StationCollection();
       this.collection.on("reset", this.searchStation, this);
       this.collection.once("reset", this.initTypeahead, this);
+      this.collection.once("reset", this.applyUserSettings, this);
       return this.collection.fetch();
+    };
+
+    SearchView.prototype.applyUserSettings = function() {
+      this.user = new UserModel({
+        id: 1
+      });
+      Dispatcher.on("search:complete", this.saveUserSearch, this);
+      Dispatcher.on("station:selected", this.saveUserSearch, this);
+      this.user.once("change", this.displayUserStation, this);
+      return this.user.fetch();
+    };
+
+    SearchView.prototype.displayUserStation = function(user) {
+      this.search.val(this.user.get('station'));
+      return this.search.blur();
+    };
+
+    SearchView.prototype.saveUserSearch = function(model, collection) {
+      var station;
+      console.log(collection);
+      station = (collection != null ? collection.length : void 0) === 1 || (collection != null) === false ? model.get('name') : "";
+      this.user.set({
+        id: 1,
+        station: station
+      });
+      return this.user.save();
     };
 
     SearchView.prototype.initTypeahead = function() {

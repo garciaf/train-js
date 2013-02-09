@@ -6,6 +6,7 @@ define (require) ->
   StationCollection = require 'collections/StationCollection'
   Dispatcher  = require 'event'
   require 'bootstrap'
+  UserModel   = require 'models/UserModel'
 
 
   ->
@@ -23,14 +24,35 @@ define (require) ->
 
       @collection.on "reset", @searchStation, @
       @collection.once "reset", @initTypeahead, @
+      @collection.once "reset", @applyUserSettings, @
         
       @collection.fetch()
 
-    initTypeahead: ->
+    applyUserSettings: ->
+      @user = new UserModel(
+        id:1
+      )
+      Dispatcher.on "search:complete",  @saveUserSearch, @
+      Dispatcher.on "station:selected", @saveUserSearch, @
+      @user.once "change", @displayUserStation, @
+      @user.fetch()
 
+    displayUserStation:(user) ->
+      @search.val(@user.get('station'))
+      @search.blur()
+
+    saveUserSearch: (model, collection) ->
+      console.log collection
+      station = if collection?.length is 1 or collection? is false then model.get('name') else "" 
+      @user.set(
+        id: 1
+        station: station
+      )
+      @user.save()
+
+    initTypeahead: ->
       @search.typeahead
         source: @collection.getSearchValues()
-
 
     searchStation: ->
       collection = @collection.findPerName(@search.val())

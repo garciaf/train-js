@@ -3,11 +3,12 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, AppView, Backbone, Dispatcher, _;
+  var $, AppView, Backbone, Dispatcher, UserModel, _;
   $ = require('jquery');
   _ = require('underscore');
   Backbone = require('backbone');
   Dispatcher = require('event');
+  UserModel = require('models/UserModel');
   (function() {});
   return AppView = (function(_super) {
 
@@ -25,8 +26,35 @@ define(function(require) {
       Dispatcher.on("info:selected", this.displayInfoInLoop, this);
       Dispatcher.on("window:resized", this.resizeContent, this);
       Dispatcher.on("station:selected", this.removeInfo, this);
+      Dispatcher.once("stations:fetched", this.applyUserSettings, this);
       this.setElement($("#info"));
       return this.resizeContent($(window).height());
+    };
+
+    AppView.prototype.applyUserSettings = function() {
+      this.user = new UserModel({
+        id: 1
+      });
+      Dispatcher.on("search:complete", this.saveUserSearch, this);
+      this.user.on("change", this.displayUser, this);
+      return this.user.fetch();
+    };
+
+    AppView.prototype.displayUser = function(user) {
+      $('#search').val(this.user.get('station'));
+      $('#search').blur();
+      return console.log(this.user);
+    };
+
+    AppView.prototype.saveUserSearch = function(model, collection) {
+      var station;
+      console.log(collection);
+      station = collection.length === 1 ? model.get('name') : "";
+      this.user.set({
+        id: 1,
+        station: station
+      });
+      return this.user.save();
     };
 
     AppView.prototype.resizeContent = function(windowHeight) {

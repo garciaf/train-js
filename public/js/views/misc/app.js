@@ -9,7 +9,7 @@ define(function(require) {
   Backbone = require('backbone');
   Dispatcher = require('event');
   (function() {});
-  AppView = (function(_super) {
+  return AppView = (function(_super) {
 
     __extends(AppView, _super);
 
@@ -58,5 +58,4 @@ define(function(require) {
     return AppView;
 
   })(Backbone.View);
-  return AppView;
 });

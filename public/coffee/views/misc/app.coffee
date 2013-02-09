@@ -32,6 +32,3 @@ define (require) ->
         hours = if duration.hours() isnt 0 then "#{duration.hours()}:" else ""
         @$el.html("<i class='icon-resize-horizontal'></i> #{destination} #{hours}#{duration.minutes()}: #{duration.seconds()}")  
       , 1000)
-        
-
-  AppView

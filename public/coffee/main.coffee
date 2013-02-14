@@ -21,14 +21,16 @@ require.config
     "localstorage":
       deps: ["backbone"]
       exports: "Backbone"
+    "zepto":
+      exports: "$"
     "bootstrap":
-      deps: ["jquery"]
+      deps: ["zepto"]
       exports: "$"      
     "jhere":
       exports: "$"
-      deps: ["jquery"]
+      deps: ["zepto"]
     "backbone":
-        deps: ["underscore", "jquery"]
+        deps: ["underscore", "zepto"]
         exports: "Backbone"
   hbs:
 

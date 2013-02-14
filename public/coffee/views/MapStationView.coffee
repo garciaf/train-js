@@ -1,7 +1,5 @@
 define (require) ->
 
-  $           = require 'jquery'
-  _           = require 'underscore'
   Backbone    = require 'backbone'
   mainTemplate = require 'hbs!templates/station/main'
   SearchView = require 'views/SearchView'

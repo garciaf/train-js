@@ -3,9 +3,7 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, Dispatcher, SearchView, StationCollection, UserModel, _;
-  $ = require('jquery');
-  _ = require('underscore');
+  var Backbone, Dispatcher, SearchView, StationCollection, UserModel;
   Backbone = require('backbone');
   StationCollection = require('collections/StationCollection');
   Dispatcher = require('event');
@@ -53,7 +51,6 @@ define(function(require) {
 
     SearchView.prototype.saveUserSearch = function(model, collection) {
       var station;
-      console.log(collection);
       station = (collection != null ? collection.length : void 0) === 1 || (collection != null) === false ? model.get('name') : "";
       this.user.set({
         id: 1,

@@ -3,6 +3,7 @@ require.config
   paths:
     "modernizr": "vendors/modernizr"
     "jquery": "vendors/jquery"
+    "zepto": "vendors/zepto"
     "underscore": "vendors/underscore-min"
     "backbone": "vendors/backbone-min"
     "localstorage": "vendors/backbone.localStorage"
@@ -41,5 +42,5 @@ require.config
     disableI18n: true
     "hbs/underscore": "underscore"
 
-require ["modernizr", "jquery", "backbone", "router"], (Modernizr, $, Backbone, Router) ->
+require ["router"], (Router) ->
   @router = new Router()

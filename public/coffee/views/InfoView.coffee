@@ -1,14 +1,10 @@
 define (require) ->
 
-  $           = require 'jquery'
-  _           = require 'underscore'
   Backbone    = require 'backbone'
   Dispatcher  = require 'event'
   InfoCollection = require 'collections/InfoCollection'
   tableTemplate    = require 'hbs!templates/info/tableInfo'
   InfoRowView = require 'views/InfoRowView'
-  TableStationView = require 'views/TableStationView'
-  stationTableTemplate = require 'hbs!templates/station/tableStation'
   moment      = require 'moment'
 
   ->

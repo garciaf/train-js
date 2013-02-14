@@ -1,7 +1,5 @@
 define (require) ->
 
-  $           = require 'jquery'
-  _           = require 'underscore'
   Backbone    = require 'backbone'
   moment      = require 'moment'
   require 'localstorage'

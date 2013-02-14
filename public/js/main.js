@@ -4,6 +4,7 @@ require.config({
   paths: {
     "modernizr": "vendors/modernizr",
     "jquery": "vendors/jquery",
+    "zepto": "vendors/zepto.min",
     "underscore": "vendors/underscore-min",
     "backbone": "vendors/backbone-min",
     "localstorage": "vendors/backbone.localStorage",
@@ -24,16 +25,19 @@ require.config({
       deps: ["backbone"],
       exports: "Backbone"
     },
+    "zepto": {
+      exports: "$"
+    },
     "bootstrap": {
-      deps: ["jquery"],
+      deps: ["zepto"],
       exports: "$"
     },
     "jhere": {
       exports: "$",
-      deps: ["jquery"]
+      deps: ["zepto"]
     },
     "backbone": {
-      deps: ["underscore", "jquery"],
+      deps: ["underscore", "zepto"],
       exports: "Backbone"
     }
   },
@@ -44,6 +48,6 @@ require.config({
   }
 });
 
-require(["modernizr", "jquery", "backbone", "router"], function(Modernizr, $, Backbone, Router) {
+require(["router"], function(Router) {
   return this.router = new Router();
 });

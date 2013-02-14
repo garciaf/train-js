@@ -1,11 +1,8 @@
 define (require) ->
 
-  $           = require 'jquery'
-  _           = require 'underscore'
   Backbone    = require 'backbone'
   AppView     = require 'views/misc/app'
   MapStationView = require 'views/MapStationView'
-  Dispatcher  = require 'event'
   InfoView    = require 'views/InfoView'
 
   ->

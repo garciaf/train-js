@@ -3,16 +3,12 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(function(require) {
-  var $, Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, TableStationView, moment, stationTableTemplate, tableTemplate, _;
-  $ = require('jquery');
-  _ = require('underscore');
+  var Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, moment, tableTemplate;
   Backbone = require('backbone');
   Dispatcher = require('event');
   InfoCollection = require('collections/InfoCollection');
   tableTemplate = require('hbs!templates/info/tableInfo');
   InfoRowView = require('views/InfoRowView');
-  TableStationView = require('views/TableStationView');
-  stationTableTemplate = require('hbs!templates/station/tableStation');
   moment = require('moment');
   (function() {});
   return InfoView = (function(_super) {

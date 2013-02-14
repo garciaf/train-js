@@ -1,7 +1,5 @@
 define (require) ->
 
-  $           = require 'jquery'
-  _           = require 'underscore'
   Backbone    = require 'backbone'
   rowTemplate    = require 'hbs!templates/info/rowInfo'
   Dispatcher  = require 'event'

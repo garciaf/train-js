@@ -1,7 +1,5 @@
 define (require) ->
 
-  $           = require 'jquery'
-  _           = require 'underscore'
   Backbone    = require 'backbone'
   StationCollection = require 'collections/StationCollection'
   Dispatcher  = require 'event'
@@ -42,7 +40,6 @@ define (require) ->
       @search.blur()
 
     saveUserSearch: (model, collection) ->
-      console.log collection
       station = if collection?.length is 1 or collection? is false then model.get('name') else "" 
       @user.set(
         id: 1

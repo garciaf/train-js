@@ -43,7 +43,7 @@
   padding: ((@navbarHeight - @baseLineHeight) / 2) 5px ((@navbarHeight - @baseLineHeight) / 2);
   font-size: @fontSizeLarge;
   font-weight: 200;
-  color: @grayDark;
+  color: @navbarText;
   text-shadow: 0 1px 0 @navbarBackgroundHighlight;
 }
 @colwidth: 250px;
@@ -100,11 +100,15 @@
 @orange:                #f89406;
 @pink:                  #c3325f;
 @purple:                #7a43b6;
+@lightPurple:           #E6E6FA;
+@aliceBlue:             #F0F8FF;
 
+//
+@mainColor:             @grayDark;
 
 // Scaffolding
 // -------------------------
-@bodyBackground:        @white;
+@bodyBackground:        contrast(@mainColor);
 @textColor:             @grayDark;
 
 
@@ -253,14 +257,14 @@
 @navbarCollapseDesktopWidth:      @navbarCollapseWidth + 1;
 
 @navbarHeight:                    40px;
-@navbarBackgroundHighlight:       #ffffff;
+@navbarBackgroundHighlight:       @mainColor;
 @navbarBackground:                darken(@navbarBackgroundHighlight, 5%);
 @navbarBorder:                    darken(@navbarBackground, 12%);
 
-@navbarText:                      #777;
-@navbarLinkColor:                 #777;
-@navbarLinkColorHover:            @grayDark;
-@navbarLinkColorActive:           @gray;
+@navbarText:                      contrast(@mainColor);
+@navbarLinkColor:                 contrast(@mainColor);
+@navbarLinkColorHover:            darken(@navbarLinkColor, 15%);
+@navbarLinkColorActive:           darken(@navbarLinkColor, 10%);
 @navbarLinkBackgroundHover:       transparent;
 @navbarLinkBackgroundActive:      darken(@navbarBackground, 5%);
 
@@ -271,8 +275,8 @@
 @navbarInverseBackgroundHighlight:       #222222;
 @navbarInverseBorder:                    #252525;
 
-@navbarInverseText:                      @grayLight;
-@navbarInverseLinkColor:                 @grayLight;
+@navbarInverseText:                      darken(@navbarLinkColor, 5%);
+@navbarInverseLinkColor:                 darken(@navbarLinkColor, 5%);
 @navbarInverseLinkColorHover:            @white;
 @navbarInverseLinkColorActive:           @navbarInverseLinkColorHover;
 @navbarInverseLinkBackgroundHover:       transparent;

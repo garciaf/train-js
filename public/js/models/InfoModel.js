@@ -67,9 +67,6 @@ define(function(require) {
       return json;
     };
 
-    InfoModel;
-
-
     return InfoModel;
 
   })(Backbone.Model);

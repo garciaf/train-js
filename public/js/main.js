@@ -3,8 +3,12 @@
 require.config({
   paths: {
     "modernizr": "vendors/modernizr",
-    "jquery": "vendors/jquery",
     "zepto": "vendors/zepto.min",
+    "jherezepto": "vendors/zepto.adapter",
+    "data": "vendors/data",
+    "selector": "vendors/selector",
+    "fx_methods": "vendors/fx_methods",
+    "detect": "vendors/detect",
     "underscore": "vendors/underscore-min",
     "backbone": "vendors/backbone-min",
     "localstorage": "vendors/backbone.localStorage",
@@ -14,27 +18,38 @@ require.config({
     "handlebars": "vendors/Handlebars",
     "jhere": "vendors/jhere",
     "moment": "vendors/moment.min",
-    "bootstrap": "vendors/bootstrap",
     "templates": "../templates"
   },
   shim: {
     "underscore": {
       exports: "_"
     },
-    "localstorage": {
-      deps: ["backbone"],
-      exports: "Backbone"
-    },
     "zepto": {
       exports: "$"
     },
-    "bootstrap": {
+    "fx_methods": {
+      exports: "$",
+      deps: ["zepto"]
+    },
+    "jherezepto": {
+      exports: "$",
+      deps: ["zepto"]
+    },
+    "data": {
+      deps: ["zepto"],
+      exports: "$"
+    },
+    "selector": {
+      deps: ["zepto"],
+      exports: "$"
+    },
+    "detect": {
       deps: ["zepto"],
       exports: "$"
     },
     "jhere": {
       exports: "$",
-      deps: ["zepto"]
+      deps: ["jherezepto"]
     },
     "backbone": {
       deps: ["underscore", "zepto"],

@@ -27,9 +27,6 @@ define(function(require) {
       return "" + (this.get('name'));
     };
 
-    StationModel;
-
-
     return StationModel;
 
   })(Backbone.Model);

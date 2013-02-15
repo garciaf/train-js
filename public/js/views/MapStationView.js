@@ -10,6 +10,7 @@ define(function(require) {
   MapView = require('views/MapView');
   TableStationView = require('views/TableStationView');
   Dispatcher = require('event');
+  require('fx_methods');
   (function() {});
   return MapStationView = (function(_super) {
 

@@ -11,7 +11,6 @@ define (require) ->
     getTimeremaining: ->
       to = if !!@get('retard') then @getDelayTime() else @getWhenTime()
       return moment.duration(to.diff(new Date()))
-      # return to.from(moment(new Date()))
     
     getWhenTime: ->
       return moment(@get('heure'))
@@ -42,5 +41,3 @@ define (require) ->
       json.when = @getWhen()
       json.delay = @getDelay()
       return json
-    # Returns the Router class
-    InfoModel

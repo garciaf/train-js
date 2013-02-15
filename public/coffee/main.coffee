@@ -2,8 +2,12 @@ require.config
 
   paths:
     "modernizr": "vendors/modernizr"
-    "jquery": "vendors/jquery"
-    "zepto": "vendors/zepto"
+    "zepto": "vendors/zepto.min"
+    "jherezepto": "vendors/zepto.adapter"
+    "data": "vendors/data"
+    "selector": "vendors/selector"
+    "fx_methods": "vendors/fx_methods"
+    "detect": "vendors/detect"
     "underscore": "vendors/underscore-min"
     "backbone": "vendors/backbone-min"
     "localstorage": "vendors/backbone.localStorage"
@@ -13,26 +17,34 @@ require.config
     "handlebars": "vendors/Handlebars"
     "jhere": "vendors/jhere"
     "moment": "vendors/moment.min"
-    "bootstrap": "vendors/bootstrap"
     "templates": "../templates"
 
   shim:
     "underscore":
       exports: "_"
-    "localstorage":
-      deps: ["backbone"]
-      exports: "Backbone"
     "zepto":
       exports: "$"
-    "bootstrap":
-      deps: ["zepto"]
-      exports: "$"      
-    "jhere":
+    "fx_methods":
       exports: "$"
       deps: ["zepto"]
+    "jherezepto":
+      exports: "$"
+      deps: ["zepto"]
+    "data":
+      deps: ["zepto"]
+      exports: "$"
+    "selector":
+      deps: ["zepto"]
+      exports: "$"
+    "detect":
+      deps: ["zepto"]
+      exports: "$"
+    "jhere":
+      exports: "$"
+      deps: ["jherezepto"]
     "backbone":
-        deps: ["underscore", "zepto"]
-        exports: "Backbone"
+      deps: ["underscore", "zepto"]
+      exports: "Backbone"
   hbs:
 
     # # callback to determine path to look for helpers

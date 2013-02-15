@@ -2,8 +2,9 @@ define (require) ->
 
   Backbone    = require 'backbone'
   Dispatcher  = require 'event'
-  jhere       = require 'jhere'
   Dispatcher  = require 'event'
+  require 'jhere'
+
   ->
 
   class MapView extends Backbone.View

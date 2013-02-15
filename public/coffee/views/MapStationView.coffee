@@ -6,6 +6,7 @@ define (require) ->
   MapView   = require 'views/MapView'
   TableStationView = require 'views/TableStationView'
   Dispatcher  = require 'event'
+  require 'fx_methods'
   ->
 
   class MapStationView extends Backbone.View

@@ -1,10 +1,7 @@
 define (require) ->
 
-  $           = require 'jquery'
-  _           = require 'underscore'
   Backbone    = require 'backbone'
   Dispatcher  = require 'event'
-  UserModel   = require 'models/UserModel'
   ->
 
   class AppView extends Backbone.View

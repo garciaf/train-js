@@ -3,43 +3,126 @@
 //
 // Variables
 // --------------------------------------------------
-#content{
-    height: 600px;
+#table-header{
+  position: fixed;
+  top: 190px; 
+  tr{
+    width: 100%;
+    background-color: @white;
+  }
+  th{
+    width: 1%;
+  }
+}
+.info-header {
+  background-color: @white;
+  table {
+      width: 100%;
+      position: fixed;
+      top: @baseLineHeight;
+      margin-top: @baseLineHeight;
+    thead{
+          display: block;
+          box-shadow: 0 .425rem .45rem -.425rem #606060;
+          box-sizing:border-box;
+          background-color: @white;
+
+      tr{
+        th{
+        width: 15%;
+        background-color: @white;
+        }
+      }
+    }
+  }
+
+}
+table.info-body{
+      margin-top: 3*@baseLineHeight;
+      display:block;
+      width: 100%;
+      height:99%;
+
+    thead{
+        display: block;
+        box-shadow: 0 .425rem .45rem -.425rem #606060;
+        box-sizing:border-box;
+    }
+
+    tbody {
+        display: block;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    th {
+      width: 15%;
+    }
+    td{
+      width: 15%;
+    }
+}
+.footer {
+  text-align: center;
+  padding-bottom: 10px 0;
+  margin-top: 20px;
+  border-top: 1px solid @grayDark;
+  background-color: @navbarBackground;
+  a {
+    color: contrast(@mainColor);
+  
+  &:hover{
+    text-decoration:none;
+    color: lighten(@blue, 10%);
+    }
+  }
+  p {
+    margin-bottom: 0;
+    color: #777;
+  }
+}
+.footer-links {
+  margin: 10px 0;
+  li {
+    display: inline;
+    padding: 0 2px;
+  }
+  li:first-child {
+    padding-left: 0;
+  }
 }
 
 // Global values
 // --------------------------------------------------
-#mapView{
-    height: 100%;
-}
-#departView{
-    height: 100%
-}
+
 #map {
+  position: fixed;
+  z-index: 2;
   height: 200px;
-  margin-top: -@baseLineHeight;
+  margin-bottom: @baseLineHeight;
+  background-color: @white;
+  width: 100%;
 
 }
 #updates{
-    position: absolute;
+    position: fixed;
     right: @baseLineHeight;
-    bottom: @baseLineHeight;
+    bottom: 3*@baseLineHeight;
 }
 #fullscreen{
     z-index: 40;
     display: block;
-    position: relative;
+    position: fixed;
     left: @baseLineHeight;
-    top: 2*@baseLineHeight;
+    top: 3*@baseLineHeight;
 }
 #stations{
-    height: 70%;
+  position: relative;
+  top: 220px;
 }
 .main-timer{
   float: left;
   display: block;
   margin-left: ((@navbarHeight - @baseLineHeight) / 2); 
-  // Vertically center the text given @navbarHeight
   padding: ((@navbarHeight - @baseLineHeight) / 2) 5px ((@navbarHeight - @baseLineHeight) / 2);
   font-size: @fontSizeLarge;
   font-weight: 200;
@@ -50,14 +133,15 @@
 .row  {
 
     table {
-		margin-top: @baseLineHeight;
-        display:block;
-        width: 100%;
-        height:99%;
+      margin-top: @baseLineHeight;
+      display:block;
+      width: 100%;
+      height:99%;
     }
 
     thead{
-        z-index: 5;
+        // z-index: 5;
+        // width: 100%;
         display: block;
         box-shadow: 0 .425rem .45rem -.425rem #606060;
         box-sizing:border-box;
@@ -67,15 +151,14 @@
         display: block;
         overflow-y: scroll;
         overflow-x: hidden;
-        width: 934px;
-        max-height: 400px;
+        // width: 934px;
     }
-    th {
-    	width: @colwidth;
-    }
-    td{
-    	width: @colwidth;
-    }
+    // th {
+    //   width: 15%;
+    // }
+    // td{
+    //   width: 15%;
+    // }
 
 }
 

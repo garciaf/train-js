@@ -13,34 +13,17 @@ define (require) ->
       Dispatcher.on "info:selected", @displayInfoInLoop, @
       Dispatcher.on "window:resized", @resizeContent, @
       Dispatcher.on "station:selected",  @removeInfo, @
-      Dispatcher.once "stations:fetched", @applyUserSettings, @
       
       @setElement($("#info"))
       @resizeContent($(window).height())
 
-    applyUserSettings: ->
-      @user = new UserModel(
-        id:1
-      )
-      Dispatcher.on "search:complete",  @saveUserSearch, @
-      @user.on "change", @displayUser, @
-      @user.fetch()
 
     displayUser:(user) ->
       $('#search').val(@user.get('station'))
       $('#search').blur()
-      console.log @user
 
-    saveUserSearch: (model, collection) ->
-      console.log collection
-      station = if collection.length is 1 then model.get('name') else "" 
-      @user.set(
-        id: 1
-        station: station
-      )
-      @user.save()
     resizeContent: (windowHeight) ->
-      $("#content").css("height", windowHeight-80)
+      $("#content").css("height", windowHeight)
 
     removeInfo: ->
       if @intervalID? then clearInterval(@intervalID)      

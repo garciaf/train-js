@@ -16,7 +16,8 @@ define (require) ->
       lowValue = value.toLowerCase()
       result = @filter (station) =>
         lowStationName = station.get('name').toLowerCase()
-        if lowStationName.indexOf(lowValue) is -1
+        lowCode = station.get('code_ddg').toLowerCase()
+        if lowStationName.indexOf(lowValue) is -1 and lowCode.indexOf(lowValue) is -1
           return false
         return true
       return result

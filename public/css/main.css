@@ -1000,6 +1000,7 @@ table.info-body td{width:15%;}
 #updates{position:fixed;right:20px;bottom:60px;}
 #fullscreen{z-index:40;display:block;position:fixed;left:20px;top:60px;}
 #stations{position:relative;top:220px;}
+#search{background-color:#eeeeee;}#search:focus{background-color:#ffffff;}
 .main-timer{float:left;display:block;margin-left:10px;padding:10px 5px 10px;font-size:17.5px;font-weight:200;color:#ffffff;text-shadow:0 1px 0 #333333;}
 .row table{margin-top:20px;display:block;width:100%;height:99%;}
 .row thead{display:block;box-shadow:0 0.425rem 0.45rem -0.425rem #606060;box-sizing:border-box;}

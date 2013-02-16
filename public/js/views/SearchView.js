@@ -19,13 +19,13 @@ define(function(require) {
     SearchView.prototype.el = 'body';
 
     SearchView.prototype.events = {
-      "change #search": "searchStation",
-      "keyup #search": "searchStation",
-      "blur #search": "searchStation"
+      "keyup #search": "searchStation"
     };
 
     SearchView.prototype.initialize = function() {
       this.search = $("#search");
+      this.form = $("form.navbar-search");
+      console.log(this.form);
       this.collection = new StationCollection();
       this.collection.on("reset", this.searchStation, this);
       this.collection.once("reset", this.initTypeahead, this);

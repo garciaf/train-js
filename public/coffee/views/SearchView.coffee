@@ -8,12 +8,12 @@ define (require) ->
   class SearchView extends Backbone.View
     el: 'body'
     events:
-      "change #search": "searchStation"
       "keyup #search": "searchStation"
-      "blur #search": "searchStation"
 
     initialize: ->
       @search = $("#search")
+      @form = $("form.navbar-search")
+      console.log @form
       @collection = new StationCollection()
       @collection.on "reset", @searchStation, @
       @collection.once "reset", @initTypeahead, @        

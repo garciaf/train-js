@@ -13,10 +13,9 @@ define (require) ->
     initialize: ->
       @search = $("#search")
       @form = $("form.navbar-search")
-      console.log @form
       @collection = new StationCollection()
-      @collection.on "reset", @searchStation, @
-      @collection.once "reset", @initTypeahead, @        
+      @listenToOnce @collection, "sync", @searchStation
+      @listenToOnce @collection, "sync", @initTypeahead
       @collection.fetch()
 
     searchStation: ->

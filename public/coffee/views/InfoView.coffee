@@ -20,7 +20,7 @@ define (require) ->
         @setElement $("#departView")
       @model = opts.model
       @collection = new InfoCollection()
-      @collection.on "reset", @render, @
+      @collection.on "sync", @render, @
       Dispatcher.on "station:selected", @loopPopulateData, @
     
     loopPopulateData: (model) ->

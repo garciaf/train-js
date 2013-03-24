@@ -9,7 +9,7 @@ require.config
     "fx_methods": "vendors/fx_methods"
     "detect": "vendors/detect"
     "underscore": "vendors/underscore-min"
-    "backbone": "vendors/backbone-min"
+    "backbone": "vendors/backbone"
     "localstorage": "vendors/backbone.localStorage"
     "i18nprecompile" : "vendors/require-handlebars-plugin/hbs/i18nprecompile"
     "json2" : "vendors/require-handlebars-plugin/hbs/json2"

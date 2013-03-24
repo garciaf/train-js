@@ -11,7 +11,7 @@ module.exports = (grunt) ->
 
     # clean
     clean:
-      minify: "public/js-opt"
+      minify: "js-opt"
 
     # less
     less:

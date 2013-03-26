@@ -19,14 +19,6 @@ app.configure ->
   app.use express.cookieParser("your secret here")
   app.use express.session()
   app.use app.router
-  app.use lessMiddleware(
-    dest: "#{__dirname}/public/css"
-    src: "#{__dirname}/public/less"
-    once: true
-    prefix: '/css'
-    debug: false
-    compress: true
-  )
 
   app.use express.static(path.join(__dirname, "public"))
 

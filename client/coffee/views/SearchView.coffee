@@ -3,6 +3,7 @@ define (require) ->
   Backbone    = require 'backbone'
   StationCollection = require 'collections/StationCollection'
   Dispatcher  = require 'event'
+  stations = require 'json!data/station.json'
   ->
 
   class SearchView extends Backbone.View
@@ -14,9 +15,8 @@ define (require) ->
       @search = $("#search")
       @form = $("form.navbar-search")
       @collection = new StationCollection()
-      @listenToOnce @collection, "sync", @searchStation
-      @listenToOnce @collection, "sync", @initTypeahead
-      @collection.fetch()
+      @listenToOnce @collection, "reset", @searchStation
+      @collection.reset(stations)
 
     searchStation: ->
       collection = @collection.findPerName(@search.val())

@@ -4,7 +4,6 @@ require.config
     "modernizr": "vendors/modernizr"
     "zepto": "vendors/zepto.min"
     "jherezepto": "vendors/zepto.adapter"
-    "data": "vendors/data"
     "selector": "vendors/selector"
     "fx_methods": "vendors/fx_methods"
     "detect": "vendors/detect"
@@ -17,9 +16,13 @@ require.config
     "handlebars": "vendors/Handlebars"
     "jhere": "vendors/jhere"
     "moment": "vendors/moment.min"
+    "text": "vendors/text"
+    "json": "vendors/json"
+    
     "templates": "../templates"
 
   shim:
+
     "underscore":
       exports: "_"
     "zepto":
@@ -30,9 +33,6 @@ require.config
     "jherezepto":
       exports: "$"
       deps: ["zepto"]
-    "data":
-      deps: ["zepto"]
-      exports: "$"
     "selector":
       deps: ["zepto"]
       exports: "$"

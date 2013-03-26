@@ -67,6 +67,13 @@ module.exports = (grunt) ->
           src: ['**']
           dest: build_dir + '/img/'
         ]
+      data:
+        files:[
+          cwd:  app_dir + '/data/' 
+          expand: true
+          src: ['**']
+          dest: build_dir + '/js/data/'
+        ]
       minify:
         files: [
           cwd: 'js-opt/' 

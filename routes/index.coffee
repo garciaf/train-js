@@ -1,4 +1,3 @@
-station = require "#{__dirname}/../data/station.json"
 request = require 'request'
 
 #
@@ -14,6 +13,3 @@ exports.infos = (req, res) ->
   request url, (error, response, body) =>
     if error then res.send(500, error)
     res.send body
-
-exports.stations = (req, res) ->
-  res.send station

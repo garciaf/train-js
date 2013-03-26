@@ -3,10 +3,11 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(function(require) {
-    var Backbone, Dispatcher, SearchView, StationCollection;
+    var Backbone, Dispatcher, SearchView, StationCollection, stations;
     Backbone = require('backbone');
     StationCollection = require('collections/StationCollection');
     Dispatcher = require('event');
+    stations = require('json!data/station.json');
     (function() {});
     return SearchView = (function(_super) {
 
@@ -26,9 +27,8 @@
         this.search = $("#search");
         this.form = $("form.navbar-search");
         this.collection = new StationCollection();
-        this.listenToOnce(this.collection, "sync", this.searchStation);
-        this.listenToOnce(this.collection, "sync", this.initTypeahead);
-        return this.collection.fetch();
+        this.listenToOnce(this.collection, "reset", this.searchStation);
+        return this.collection.reset(stations);
       };
 
       SearchView.prototype.searchStation = function() {

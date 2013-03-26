@@ -27,7 +27,6 @@ app.configure "development", ->
   app.use express.errorHandler()
 
 app.get "/infos", routes.infos
-app.get "/stations", routes.stations
 app.get "/map", routes.index
 app.get "/arrivals", routes.index
 app.get "/departure", routes.index

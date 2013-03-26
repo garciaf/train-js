@@ -18,6 +18,7 @@ module.exports = (grunt) ->
       release:
         options:
           yuicompress: true
+          compress: true
         files:
           "public/css/main.css":  "client/less/main.less"
 

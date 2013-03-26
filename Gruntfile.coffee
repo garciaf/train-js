@@ -40,6 +40,7 @@ module.exports = (grunt) ->
           baseUrl: "."
           dir: "js-opt"
           mainConfigFile: "public/js/main.js"
+          preserveLicenseComments: false
           modules:[
             name: "main"
           ]

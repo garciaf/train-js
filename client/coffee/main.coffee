@@ -1,7 +1,6 @@
 require.config
 
   paths:
-    "modernizr": "vendors/modernizr"
     "zepto": "vendors/zepto.min"
     "jherezepto": "vendors/zepto.adapter"
     "selector": "vendors/selector"
@@ -9,7 +8,6 @@ require.config
     "detect": "vendors/detect"
     "underscore": "vendors/underscore-min"
     "backbone": "vendors/backbone"
-    "localstorage": "vendors/backbone.localStorage"
     "i18nprecompile" : "vendors/require-handlebars-plugin/hbs/i18nprecompile"
     "json2" : "vendors/require-handlebars-plugin/hbs/json2"
     "hbs": "vendors/require-handlebars-plugin/hbs"    

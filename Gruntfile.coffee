@@ -3,8 +3,8 @@ module.exports = (grunt) ->
   
   # Configuration
   # ---------------------------------------------------------------------------
-  app_dir = 'public/coffee'
-  build_dir = 'public/js'
+  app_dir = 'client'
+  build_dir = 'public'
   # initialize grunt config with created config
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
@@ -27,9 +27,9 @@ module.exports = (grunt) ->
         files:[
           expand: true
           bare: true
-          cwd: app_dir + '/'
+          cwd: app_dir + '/coffee/'
           src: ['**/*.coffee']
-          dest: build_dir
+          dest: build_dir + '/js/'
           ext: '.js'
         ]
         
@@ -46,12 +46,33 @@ module.exports = (grunt) ->
 
     copy:
 
+      vendor:
+        files:[
+          cwd:  app_dir + '/vendors/' 
+          expand: true
+          src: ['**']
+          dest: build_dir + '/js/vendors/'
+        ]
+      templates:
+        files:[
+          cwd:  app_dir + '/templates/' 
+          expand: true
+          src: ['**']
+          dest: build_dir + '/templates/'
+        ]
+      assets:
+        files:[
+          cwd:  app_dir + '/img/' 
+          expand: true
+          src: ['**']
+          dest: build_dir + '/img/'
+        ]
       minify:
         files: [
           cwd: 'js-opt/' 
           expand: true
-          src: ['**']
-          dest: build_dir 
+          src: ['main.js']
+          dest: build_dir + '/js/'
         ]
 
 
@@ -78,6 +99,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-less'
   grunt.loadNpmTasks 'grunt-requirejs'
   
   # Task Collections
@@ -89,5 +111,6 @@ module.exports = (grunt) ->
 
 
   grunt.registerTask 'default', ['watch']
-  grunt.registerTask 'build', ['coffee', 'requirejs', 'copy:minify', 'clean:minify']
+  grunt.registerTask 'build', ['coffee', 'copy', 'less']
+  grunt.registerTask 'build:prod', ['coffee', 'copy', 'requirejs', 'copy:minify', 'clean:minify', 'less']
   # Test Tasks

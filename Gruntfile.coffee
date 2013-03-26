@@ -109,7 +109,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-less'
-  grunt.loadNpmTasks 'grunt-requirejs'
+  grunt.loadNpmTasks 'grunt-contrib-requirejs'
   
   # Task Collections
   # ---------------------------------------------------------------------------

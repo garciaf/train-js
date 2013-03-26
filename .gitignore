@@ -15,7 +15,6 @@ results
 node_modules
 npm-debug.log
 
-public
 
 app.js
 config/*.json

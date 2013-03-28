@@ -34,6 +34,15 @@ module.exports = (grunt) ->
           dest: build_dir + '/js/'
           ext: '.js'
         ]
+      helper:
+        files:[
+          expand: true
+          bare: true
+          cwd: app_dir + '/template/helpers'
+          src: ['**/*.coffee']
+          dest: build_dir + '/template/helpers'
+          ext: '.js'
+        ]
         
     requirejs:
       compile: 
@@ -43,11 +52,13 @@ module.exports = (grunt) ->
           dir: "js-opt"
           mainConfigFile: "public/js/main.js"
           optimize: "uglify2"
+          inlineText: true
           uglify2:
             compress:
               dead_code: true
               properties: true
               loops: true
+              warnings: true
           preserveLicenseComments: false
           modules:[
             name: "main"
@@ -64,10 +75,10 @@ module.exports = (grunt) ->
         ]
       templates:
         files:[
-          cwd:  app_dir + '/templates/' 
+          cwd:  app_dir + '/template/' 
           expand: true
-          src: ['**']
-          dest: build_dir + '/templates/'
+          src: ['**/*.hbs']
+          dest: build_dir + '/template/'
         ]
       assets:
         files:[

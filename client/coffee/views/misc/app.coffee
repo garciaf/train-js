@@ -7,7 +7,6 @@ define (require) ->
   class AppView extends Backbone.View
 
     initialize: (opts) ->
-      _.bindAll @
       $(window).resize ->
         Dispatcher.trigger "window:resized", $(@).height()
       Dispatcher.on "info:selected", @displayInfoInLoop, @

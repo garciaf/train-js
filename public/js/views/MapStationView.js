@@ -5,7 +5,7 @@
   define(function(require) {
     var Backbone, Dispatcher, MapStationView, MapView, SearchView, TableStationView, mainTemplate;
     Backbone = require('backbone');
-    mainTemplate = require('hbs!templates/station/main');
+    mainTemplate = require('hbs!template/station/main');
     SearchView = require('views/SearchView');
     MapView = require('views/MapView');
     TableStationView = require('views/TableStationView');

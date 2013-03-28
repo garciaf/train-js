@@ -7,7 +7,7 @@
     Backbone = require('backbone');
     Dispatcher = require('event');
     InfoCollection = require('collections/InfoCollection');
-    tableTemplate = require('hbs!templates/info/tableInfo');
+    tableTemplate = require('hbs!template/info/tableInfo');
     InfoRowView = require('views/InfoRowView');
     moment = require('moment');
     (function() {});
@@ -29,7 +29,7 @@
         }
         this.model = opts.model;
         this.collection = new InfoCollection();
-        this.collection.on("sync", this.render, this);
+        this.listenTo(this.collection, "sync", this.render);
         return Dispatcher.on("station:selected", this.loopPopulateData, this);
       };
 

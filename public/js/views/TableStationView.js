@@ -7,7 +7,7 @@
     Backbone = require('backbone');
     Dispatcher = require('event');
     StationView = require('views/StationView');
-    stationTableTemplate = require('hbs!templates/station/tableStation');
+    stationTableTemplate = require('hbs!template/station/tableStation');
     (function() {});
     return TableStationView = (function(_super) {
 

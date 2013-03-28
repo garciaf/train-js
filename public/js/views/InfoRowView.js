@@ -5,7 +5,7 @@
   define(function(require) {
     var Backbone, Dispatcher, InfoRowView, rowTemplate;
     Backbone = require('backbone');
-    rowTemplate = require('hbs!templates/info/rowInfo');
+    rowTemplate = require('hbs!template/info/rowInfo');
     Dispatcher = require('event');
     (function() {});
     return InfoRowView = (function(_super) {

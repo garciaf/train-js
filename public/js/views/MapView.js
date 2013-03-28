@@ -6,7 +6,6 @@
     var Backbone, Dispatcher, MapView;
     Backbone = require('backbone');
     Dispatcher = require('event');
-    Dispatcher = require('event');
     require('jhere');
     (function() {});
     return MapView = (function(_super) {

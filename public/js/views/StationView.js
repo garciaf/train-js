@@ -5,7 +5,7 @@
   define(function(require) {
     var Backbone, Dispatcher, StationView, stationRowTemplate;
     Backbone = require('backbone');
-    stationRowTemplate = require('hbs!templates/station/rowStation');
+    stationRowTemplate = require('hbs!template/station/rowStation');
     Dispatcher = require('event');
     (function() {});
     return StationView = (function(_super) {

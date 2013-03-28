@@ -2,14 +2,11 @@ define (require) ->
 
   Backbone    = require 'backbone'
   Dispatcher  = require 'event'
-  Dispatcher  = require 'event'
   require 'jhere'
 
   ->
 
   class MapView extends Backbone.View
-    
-
 
     initialize: (opts) ->      
       Dispatcher.once "search:complete", @displayMarker, @
@@ -20,11 +17,13 @@ define (require) ->
     addBubbles: (station) ->
       $("#map").jHERE 'center', station.getPosition()
       $("#map").jHERE 'bubble', station.getPosition(), content: station.get('name')
+
     centerMap: (station) ->
       $("#map").jHERE 'center', station.getPosition()
+
     displayMarker: (firstStation, stations) ->
       stations.forEach (station) =>
-        $("#map").jHERE 'marker', station.getPosition(),  {icon: 'img/steamtrain.png', anchor: {x: 12, y: 30},  click: (e) => Dispatcher.trigger "station:selected", station }
+        $("#map").jHERE 'marker', station.getPosition(),  { icon: 'img/steamtrain.png', anchor: {x: 12, y: 30},  click: (e) => Dispatcher.trigger "station:selected", station }
       return false
 
     render: ->

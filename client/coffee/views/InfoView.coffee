@@ -3,7 +3,7 @@ define (require) ->
   Backbone    = require 'backbone'
   Dispatcher  = require 'event'
   InfoCollection = require 'collections/InfoCollection'
-  tableTemplate    = require 'hbs!templates/info/tableInfo'
+  tableTemplate    = require 'hbs!template/info/tableInfo'
   InfoRowView = require 'views/InfoRowView'
   moment      = require 'moment'
 
@@ -20,7 +20,7 @@ define (require) ->
         @setElement $("#departView")
       @model = opts.model
       @collection = new InfoCollection()
-      @collection.on "sync", @render, @
+      @listenTo @collection, "sync", @render
       Dispatcher.on "station:selected", @loopPopulateData, @
     
     loopPopulateData: (model) ->

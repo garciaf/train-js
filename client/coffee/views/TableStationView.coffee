@@ -3,7 +3,7 @@ define (require) ->
   Backbone    = require 'backbone'
   Dispatcher  = require 'event'
   StationView = require 'views/StationView'
-  stationTableTemplate = require 'hbs!templates/station/tableStation'
+  stationTableTemplate = require 'hbs!template/station/tableStation'
   ->
 
   class TableStationView extends Backbone.View

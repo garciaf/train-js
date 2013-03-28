@@ -16,9 +16,8 @@ require.config
     "moment": "vendors/moment.min"
     "text": "vendors/text"
     "json": "vendors/json"
+    "template": "../template"
     
-    "templates": "../templates"
-
   shim:
 
     "underscore":

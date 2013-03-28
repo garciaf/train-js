@@ -1,7 +1,7 @@
 define (require) ->
 
   Backbone    = require 'backbone'
-  rowTemplate    = require 'hbs!templates/info/rowInfo'
+  rowTemplate    = require 'hbs!template/info/rowInfo'
   Dispatcher  = require 'event'
 
   ->

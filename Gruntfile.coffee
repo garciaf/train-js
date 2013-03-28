@@ -12,6 +12,7 @@ module.exports = (grunt) ->
     # clean
     clean:
       minify: "js-opt"
+      public: "public"
 
     # less
     less:
@@ -41,6 +42,12 @@ module.exports = (grunt) ->
           baseUrl: "."
           dir: "js-opt"
           mainConfigFile: "public/js/main.js"
+          optimize: "uglify2"
+          uglify2:
+            compress:
+              dead_code: true
+              properties: true
+              loops: true
           preserveLicenseComments: false
           modules:[
             name: "main"
@@ -120,6 +127,6 @@ module.exports = (grunt) ->
 
 
   grunt.registerTask 'default', ['watch']
-  grunt.registerTask 'build', ['coffee', 'copy', 'less']
-  grunt.registerTask 'build:prod', ['coffee', 'copy', 'requirejs', 'copy:minify', 'clean:minify', 'less']
+  grunt.registerTask 'build', ['clean','coffee', 'copy', 'less']
+  grunt.registerTask 'build:prod', ['build','requirejs', 'copy:minify', 'clean:minify']
   # Test Tasks

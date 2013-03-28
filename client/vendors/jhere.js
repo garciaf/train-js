@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2012 Massimiliano Marcon, http://marcon.me
+Copyright (c) 2013 Massimiliano Marcon, http://marcon.me
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //Using jHERE in your websites and applications is really easy.
     //
-    //Include either jQuery or Zepto.JS at the end of your page
+    //Include either jQuery, Zepto.JS or Tire.js at the end of your page
     //
     //`<script type="text/javascript" src="js/jquery.min.js"></script>`
     //
@@ -34,12 +34,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`<script type="text/javascript" src="js/zepto.min.js"></script>`
     //
+    // or
+    //
+    //`<script type="text/javascript" src="js/tire.min.js"></script>`
+    //
     //[Download](https://github.com/mmarcon/jhere/archive/master.zip) the plugin code, copy it in your project folder and
-    //add the necessary script tags below jQuery or Zepto.JS. **If you are using Zepto.JS**
-    //the you will need to **include the Zepto adapter** before including the plugin.
+    //add the necessary script tags after jQuery, Zepto.JS or Tire.js. **If you are using Zepto.JS**
+    //then you will need to **include the Zepto adapter** before including the plugin.
     //
     //<pre><code>&lt;script type="text/javascript" src="js/zepto.adapter.js"&gt;
     //&lt;!--Only when using Zepto--&gt;
+    //&lt;/script&gt;</code></pre>
+    //
+    //**If you are using Tire.js**
+    //then you will need to **include the Tire adapter** before including the plugin.
+    //
+    //<pre><code>&lt;script type="text/javascript" src="js/tire.adapter.js"&gt;
+    //&lt;!--Only when using Tire--&gt;
     //&lt;/script&gt;</code></pre>
     //
     //`<script type="text/javascript" src="js/jhere.js"></script>`
@@ -48,14 +59,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //Make sure the DOM element that will contain the map has the appropriate
     //size via CSS, e.g. by setting width and height.
     //
-    //**Note that jHERE requires Zepto.JS or jQuery > 1.7.**
+    //**Note that jHERE requires Zepto.JS, jQuery > 1.7 or Tire.js >= 1.1.1**
     var plugin = 'jHERE',
-        defaults, H, _ns, _JSLALoader,
-        _credentials, bind = $.proxy, P;
+        defaults, H, _ns, _ns_map, _JSLALoader,
+        _credentials, bind = $.proxy, P,
+        /*Map and marker supported events*/
+        mouse = 'mouse', click = 'click', drag = 'drag', touch = 'touch', start = 'start', end = 'end', move = 'move',
+        supportedEvents = [
+            click,
+            'dbl' + click,
+            mouse + 'up',
+            mouse + 'down',
+            mouse + move,
+            mouse + 'over',
+            mouse + 'out',
+            mouse + 'enter',
+            mouse + 'leave',
+            'longpress',
+            drag + start,
+            drag,
+            drag + end,
+            'resize',
+            touch + start,
+            touch + end,
+            touch + move
+        ];
 
     defaults = {
-        appId: '_peU-uCkp-j8ovkzFGNU',
-        authToken: 'gBoUkAMoxoqIWfxWA5DuMQ',
+        appId: '69Dgg78qt4obQKxVbRA8',
+        authToken: 'Nz7ilIB_v1CRwPXxgPdvuA',
         zoom: 12,
         center: [52.49, 13.37],
         enable: ['behavior', 'zoombar', 'scalebar', 'typeselector'],
@@ -91,7 +123,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`options` is an object that looks like this:
     //
     //<pre><code>{
-    //  enable: [], //An array of components as strings.
+    //  enable: ['behavior', 'zoombar'], //An array of components as strings.
     //  zoom: 12, //a positive integer.
     //  center: []|{}, //An object of type {latitude: Number, longitude: Number}
     //                 //or array [latitude, longitude],
@@ -117,11 +149,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // Default for `enable` is `['behavior', 'zoombar', 'scalebar', 'typeselector']`.
     // Pass `false` for no components.
     //
-    //**Note on `appId` and `authToken`:** the plugin includes by default the credentials
-    //I used development, and it is ok for you to use the same credentials for development
-    //and testing purpose. However you should really register on the Nokia developer website
-    //and get your own. I strongly encourage you to do it especially for production use as
+    // ### HERE API Credentials
+    //
+    //jHERE uses by default the `appId` and `authToken` that
+    //I used for development, and it is ok for you to use the same credentials for development
+    //and testing purpose.
+    //
+    //However you should really register on the [HERE developer website](http://developer.here.com)
+    //and get your own. I strongly encourage you to do so especially for production use, as
     //my credentials may unexpectedtly stop working at any time.
+    //
+    //### Map events
+    //
+    //It is possible to listen for events on the map in the usual jQuery way (`on`, `off`). All the event
+    //names start with `map`. The event passed to the callback function always has a `geo` property that
+    //contains latitude and longitude of the point where the event originated.
+    //
+    //For example, to listen for clicks events:
+    //
+    //`$('.mymap').on('mapclick', function(e){ console.log (e.geo)});`
+    //
+    //Supported events are:
+    //
+    //`mapclick`, `mapmouseup`, `mapmousedown`, `mapmousemove`, `mapmouseover`, `mapmouseout`,
+    //`mapmouseenter`, `mapmouseleave`, `maplongpress`, `mapdragstart`, `mapdrag`, `mapdragend`,
+    //`mapresize`, `maptouchstart`, `maptouchend`, `maptouchmove`.
     function jHERE(element, options){
         this.element = element;
         this.options = $.extend({}, defaults, options);
@@ -136,10 +188,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //`$.jHERE.defaultCredentials(appId, authToken);`
     //
     //Set the default credentials. After this method has been called it is
-    //no longer necessary to include credentials in all the calls
+    //no longer necessary to include credentials in any of the calls
     //to `$('.selector').jHERE(options);`.
-    //
-    //For `appId` and `authToken` refer to the note above.
     P.defaultCredentials = function(appId, authToken) {
         _credentials = {
             appId: appId,
@@ -155,10 +205,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     H.makemap = function(){
-        var options = this.options,
-            component = _ns.map.component,
-            components = [];
-
+        var self = this,
+            options = self.options,
+            component = _ns_map.component,
+            components = [],
+            defaultHandler = bind(triggerMapEvent, self), listeners = {};
         /*
          Positioning is incovieniently
          located in a namespace that is
@@ -176,22 +227,45 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         _ns.util.ApplicationContext.set(_credentials);
 
         /*and now make the map*/
-        $.data(this.element, plugin, true);
+        $.data(self.element, plugin, true);
 
         /*Setup the components*/
         $.each(component, bind(function(c, Constructor){
-            if($.inArray(c.toLowerCase(), this.options.enable) > -1) {
-                components.push(new Constructor());
-            }
-        }, this));
+            /*~$.inArray(el, array) === $.inArray(el, array) > -1*/
+            c = c.toLowerCase();
+            if(~$.inArray(c, self.options.enable)) {
+                /*
+                 Here's what happens:
+                 - if Constructor is a function isFunction(Constructor) returns true
+                 - components.push(new Constructor())) pushes a new instance of the component
+                   into the array, and returns the new length (a number always > 0) which is truty
+                 - therefore the callback returns true, which in jQuery's look corresponds to continue.
 
-        this.map = new _ns.map.Display(this.element, {
+                 - if Constructor is not a function, the passed component is invalid, therefore
+                   we throw an exception with $.error
+
+                - returrn is mostly there beacause the linter says so.
+                 */
+                return (isFunction(Constructor) && components.push(new Constructor())) || $.error('invalid: ' + c);
+            }
+        }, self));
+
+        self.map = new _ns_map.Display(self.element, {
             zoomLevel: options.zoom,
             center: options.center,
             components: components
         });
 
-        this.type(options.type);
+        self.type(options.type);
+        /*A container where all markers will be stored*/
+        self._mc = new _ns_map.Container();
+        self.map.objects.add(self._mc);
+
+        /*Add listeners*/
+        $.each(supportedEvents, function(i, v){
+            listeners[v] = [defaultHandler, false, null];
+        });
+        self.map.addListeners(listeners);
     };
 
     //### Center the map
@@ -280,18 +354,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //  mouseleave: function(event){/*this is the element, event.geo contains the coordinates*/},
     //  longpress: function(event){/*this is the element, event.geo contains the coordinates*/}
     //}</code></pre>
+    //All parameters are **optional**.
     H.marker = function(position, markerOptions) {
         var markerListeners = {},
-            mouse = 'mouse', click = 'click',
-            supportedEvents = [click,
-                               'dbl' + click,
-                               mouse + 'move',
-                               mouse + 'over',
-                               mouse + 'out',
-                               mouse + 'enter',
-                               mouse + 'leave',
-                               'longpress'],
-            centralizedHandler = bind(triggerEvent, this);
+            centralizedHandler = bind(triggerEvent, this),
+            mc = this._mc,
+            MarkerConstructor = 'Marker';
         $.each(supportedEvents, function(i, v){
             markerListeners[v] = [centralizedHandler, false, null];
         });
@@ -303,11 +371,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         markerOptions.brush = markerOptions.brush || {color: markerOptions.fill};
         markerOptions.eventListener = markerListeners;
 
-        if (markerOptions.icon) {
-            this.map.objects.add(new _ns.map.Marker(position, markerOptions));
-        } else {
-            this.map.objects.add(new _ns.map.StandardMarker(position, markerOptions));
+        if (!markerOptions.icon) {
+            MarkerConstructor = 'Standard' + MarkerConstructor;
         }
+        /*
+         Little slower than it used to be, and a little less readable
+         but minifies very well.
+         */
+        mc.objects.add(new _ns_map[MarkerConstructor](position, markerOptions));
+    };
+
+    //### Remove all the markers from the map
+    //`$('.selector').jHERE('nomarkers');`
+    H.nomarkers = function(){
+        this._mc.objects.clear();
     };
 
     //### Add bubbles to the map
@@ -338,17 +415,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             bubbleOptions.content = $('<div/>').append(bubbleOptions.content.clone()).html();
         }
         bubbleComponent = map.getComponentById('InfoBubbles') ||
-            map.addComponent(new _ns.map.component.InfoBubbles());
-        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position[0], longitude: position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
+            map.addComponent(new _ns_map.component.InfoBubbles());
+        bubbleComponent.openBubble(bubbleOptions.content, {latitude: position.latitude || position[0], longitude: position.longitude || position[1]}, bubbleOptions.onclose, !bubbleOptions.closable);
     };
 
     //### Remove all the bubbles from the map
     //`$('.selector').jHERE('nobubbles');`
     H.nobubbles = function() {
-        var map = this.map,
-            bubbleComponent = map.getComponentById('InfoBubbles') ||
-                map.addComponent(new _ns.map.component.InfoBubbles());
-        bubbleComponent.closeAll();
+        var bubbleComponent;
+        return (bubbleComponent = this.map.getComponentById('InfoBubbles')) && bubbleComponent.closeAll();
     };
 
     //### Display KMLs on the map
@@ -360,6 +435,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //and displayed the map will be zoomed to the bounding box of the KML.
     //
     //`ondone` is a function, called once the KML has been rendered.
+    //
+    //It is required that the KML is hosted on the same domain
+    //where the application is hosted, or that the server that hosts
+    //the KML file has [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) enabled.
     H.kml = function(KMLFile, zoomToKML, ondone) {
         if(isFunction(zoomToKML)) {
             ondone = zoomToKML;
@@ -431,7 +510,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //This is useful when advanced operations
     //that are not exposed by this plugin need to be
-    //performed. Check [developer.here.net](http://developer.here.net) for the
+    //performed. Check [developer.here.com](http://developer.here.com) for the
     //documentation.
     //
     //`closure` should look like this:
@@ -440,7 +519,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //    //map is the JSLA map object
     //    //here is the whole JSLA API namespace
     //}</code></pre>
-    H.originalMap = function(closure){
+    H.originalMap = function(closure) {
         /*
          Be a good citizen:
          closure context will be the DOM element
@@ -476,7 +555,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     /*
      Undocumented, on purpose.
     */
-    H.destroy = function(){
+    H.destroy = function() {
         this.map.destroy();
         $.removeData(this.element);
         $(this.element).empty();
@@ -516,41 +595,54 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         kmlManager.parseKML(KMLFile);
     }
 
+    function triggerMapEvent(event) {
+        var target = event.target, position = this.map.pixelToGeo(event.displayX, event.displayY);
+        if(target !== this.map) {
+            return;
+        }
+        event.type = 'map' + event.type;
+        $(this.element).trigger(makeGeoEvent(event, position));
+    }
+
+    function triggerEvent(event) {
+        var target = event.target, handler = target[event.type];
+        if (isFunction(handler)) {
+            /*
+             When the event listener is called then
+             the context is the DOM element containing the map.
+            */
+            handler.call(this.element, makeGeoEvent(event, target.coordinate));
+        }
+    }
+
     /*
      *********************************************
      *********************************************
     */
 
-    function triggerEvent(event) {
-        var handler = event.target[event.type], e;
-        if ($.isFunction(handler)) {
-            e = $.Event(event.type, {
-                originalEvent: event,
-                geo: {
-                    latitude: event.target.coordinate.latitude,
-                    longitude: event.target.coordinate.longitude
-                },
-                target: event.target
-            });
-            /*
-             When the event listener is called then
-             the context is the DOM element containing the map.
-            */
-            handler.call(this.element, e);
-        }
+    function makeGeoEvent(event, position) {
+        return $.Event(event.type, {
+            originalEvent: event,
+            geo: {
+                latitude: position.latitude,
+                longitude: position.longitude
+            },
+            target: event.target
+        });
     }
+
 
     function isFunction(fn) {
         return typeof fn === 'function';
     }
 
     /*
-     jHERE is compatible with jQuery > 1.7 and Zepto
-     which both have the on method in the prototype.
+     jHERE is compatible with jQuery > 1.7, Zepto and Tire
+     which all have the on method in the prototype.
      jQuery <= 1.7 does not have on.
     */
 
-    function isSupported(){
+    function isSupported() {
         return !!$().on;
     }
 
@@ -569,7 +661,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             /*TODO: make load cutomizable so we don't load unnecessary stuff.*/
             _ns.Features.load({map: 'auto', ui: 'auto', search: 'auto', routing: 'auto',
                                positioning: 'auto', behavior: 'auto', kml: 'auto', heatmap: 'auto'},
-                              function(){_JSLALoader.is.resolve();});
+                              function(){_ns_map = _ns.map; _JSLALoader.is.resolve();});
         };
         head = doc.getElementsByTagName('head')[0];
         jsla = doc.createElement('script');
@@ -620,14 +712,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //});</code></pre>
     //
     //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
-    P.extend = function(name, fn){
+    P.extend = function(name, fn) {
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;
         }
     };
 
+    /***_***/
+
     $.fn[plugin] = function(options) {
-        var args = arguments, key = 'plugin_' + plugin, pluginObj;
+        var args = arguments, key = 'plg_' + plugin, pluginObj;
         if(!isSupported()){
             $.error(plugin + ' requires Zepto or jQuery >= 1.7');
         }
@@ -653,13 +747,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                  options must be the method then, so it should be a string
                 */
                 if (typeof options !== 'string') {
-                    $.error(plugin + '::Plugin already initialized on this element, expected method.');
+                    $.error(plugin + ' already initialized, expected method.');
                 }
                 method = options;
                 /*Get the arguments*/
                 args = Array.prototype.slice.call(args, 1);
                 if (!isFunction(pluginObj[method])) {
-                    $.error(plugin + '::Method ' + method + ' does not exist');
+                    $.error(plugin + ': ' + method + ' does not exist');
                 }
                 /*
                  Only execute method when we are sure JSLA

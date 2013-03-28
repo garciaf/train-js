@@ -14,7 +14,8 @@
     "coffee-script": "*",
     "hbs": "*",
     "less-middleware": "*",
-    "request": "*"
+    "request": "*",
+    "connect-gzip": "*"
   },
     "devDependencies": {
     "mocha": "~1.4.2",

@@ -6,7 +6,7 @@ require.config
     "selector": "vendors/selector"
     "fx_methods": "vendors/fx_methods"
     "detect": "vendors/detect"
-    "underscore": "vendors/underscore-min"
+    "underscore": "vendors/underscore"
     "backbone": "vendors/backbone"
     "i18nprecompile" : "vendors/require-handlebars-plugin/hbs/i18nprecompile"
     "json2" : "vendors/require-handlebars-plugin/hbs/json2"

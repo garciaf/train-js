@@ -6,6 +6,7 @@ define ["handlebars"], (Handlebars) ->
       when "TGV" then "<img src='/img/tgv.jpg'>"
       when "INTERCITES" then "<img src='/img/intercite.png'>"
       when "BUS" then "<img src='/img/bus.png'>"
+      when "IDTGV" then "<img src='/img/idtgv.png'>"
       else type
     return icon
   Handlebars.registerHelper "iconize", iconize

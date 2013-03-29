@@ -14,6 +14,8 @@
             return "<img src='/img/intercite.png'>";
           case "BUS":
             return "<img src='/img/bus.png'>";
+          case "IDTGV":
+            return "<img src='/img/idtgv.png'>";
           default:
             return type;
         }

@@ -4,6 +4,7 @@ define (require) ->
   Dispatcher  = require 'event'
   InfoCollection = require 'collections/InfoCollection'
   tableTemplate    = require 'hbs!template/info/tableInfo'
+  notificationTemplate = require 'hbs!template/notification'
   InfoRowView = require 'views/InfoRowView'
   moment      = require 'moment'
 
@@ -20,7 +21,9 @@ define (require) ->
         @setElement $("#departView")
       @model = opts.model
       @collection = new InfoCollection()
+      @listenTo @collection, "request", @displayloading
       @listenTo @collection, "sync", @render
+      @listenTo @collection, "error", @onError
       Dispatcher.on "station:selected", @loopPopulateData, @
     
     loopPopulateData: (model) ->
@@ -37,7 +40,6 @@ define (require) ->
       )
     
     render: ->
-
       @infos = new InfoCollection(@collection.toJSON()[0][@type])
       @$el.html(tableTemplate())
       @infos.forEach (info, key) => 
@@ -49,6 +51,12 @@ define (require) ->
       now = moment().format("LT")
       $("#lastupdate").html(now)
     
+    onError: (model, resp, options) ->
+      @$el.html(notificationTemplate({type: "error", message: "error communication"}))
+    
+    displayloading: ->
+      @$el.html(notificationTemplate({type: "alert", message: "loading"}))
+
     hide: ->
       @$el.hide()
 

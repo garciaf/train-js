@@ -11,5 +11,5 @@ exports.infos = (req, res) ->
   gareCode = req.query.code
   url = "http://sncf.mobi/infotrafic/iphoneapp/ddge/?gare=#{gareCode}"
   request url, (error, response, body) =>
-    if error then res.send(500, error)
+    if error then res.send(404, error)
     res.send body

@@ -3,11 +3,12 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(function(require) {
-    var Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, moment, tableTemplate;
+    var Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, moment, notificationTemplate, tableTemplate;
     Backbone = require('backbone');
     Dispatcher = require('event');
     InfoCollection = require('collections/InfoCollection');
     tableTemplate = require('hbs!template/info/tableInfo');
+    notificationTemplate = require('hbs!template/notification');
     InfoRowView = require('views/InfoRowView');
     moment = require('moment');
     (function() {});
@@ -29,7 +30,9 @@
         }
         this.model = opts.model;
         this.collection = new InfoCollection();
+        this.listenTo(this.collection, "request", this.displayloading);
         this.listenTo(this.collection, "sync", this.render);
+        this.listenTo(this.collection, "error", this.onError);
         return Dispatcher.on("station:selected", this.loopPopulateData, this);
       };
 
@@ -65,6 +68,20 @@
         });
         now = moment().format("LT");
         return $("#lastupdate").html(now);
+      };
+
+      InfoView.prototype.onError = function(model, resp, options) {
+        return this.$el.html(notificationTemplate({
+          type: "error",
+          message: "error communication"
+        }));
+      };
+
+      InfoView.prototype.displayloading = function() {
+        return this.$el.html(notificationTemplate({
+          type: "alert",
+          message: "loading"
+        }));
       };
 
       InfoView.prototype.hide = function() {

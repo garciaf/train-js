@@ -5,14 +5,15 @@ path = require "path"
 hbs = require 'hbs'
 gzip = require 'connect-gzip'
 app = express()
-app.configure ->
 
+app.configure ->
   app.set "port", process.env.PORT or 3000
   app.set "views", "#{__dirname}/public/template"
   app.set "view engine", "hbs"
   app.set "view cache", true
   app.set "view options",
     layout: "layout"
+    pretty: true
   app.use gzip.gzip
     flags: '--best'
   app.use express.favicon()

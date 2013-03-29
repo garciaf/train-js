@@ -7,13 +7,13 @@
       icon = (function() {
         switch (type) {
           case "TER":
-            return "ter";
+            return "<img src='/img/ter.png'>";
           case "TGV":
-            return "tgv";
+            return "<img src='/img/tgv.jpg'>";
           case "INTERCITES":
-            return "intercités";
+            return "<img src='/img/intercite.png'>";
           case "BUS":
-            return "bus";
+            return "<img src='/img/bus.png'>";
           default:
             return type;
         }

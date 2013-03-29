@@ -4,6 +4,8 @@ http = require "http"
 path = require "path"
 hbs = require 'hbs'
 gzip = require 'connect-gzip'
+config = require "#{__dirname}/config/config.json"
+
 app = express()
 
 app.configure ->
@@ -20,7 +22,7 @@ app.configure ->
   app.use express.logger("dev")
   app.use express.bodyParser()
   app.use express.methodOverride()
-  app.use express.cookieParser("your secret here")
+  app.use express.cookieParser(config.cookie_secret)
   app.use express.session()
   app.use app.router
   app.use gzip.staticGzip(path.join(__dirname, "public"), {maxAge: 86400000, flags: "--best"})

@@ -5,16 +5,16 @@ module.exports = (grunt) ->
   # ---------------------------------------------------------------------------
   app_dir = 'client'
   build_dir = 'public'
+  # never give the same name to build_dir and tmp_dir
+  tmp_dir = 'tmp'
   # initialize grunt config with created config
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
-    # clean
     clean:
-      minify: "js-opt"
+      minify: tmp_dir
       public: "public"
 
-    # less
     less:
       release:
         options:
@@ -23,7 +23,6 @@ module.exports = (grunt) ->
         files:
           "public/css/main.css":  "client/less/main.less"
 
-    # coffee compilation tasks
     coffee:
       app:
         files:[
@@ -49,7 +48,7 @@ module.exports = (grunt) ->
         options:
           appDir: "public/js"
           baseUrl: "."
-          dir: "js-opt"
+          dir: tmp_dir
           mainConfigFile: "public/js/main.js"
           optimize: "uglify2"
           inlineText: true
@@ -96,7 +95,7 @@ module.exports = (grunt) ->
         ]
       minify:
         files: [
-          cwd: 'js-opt/' 
+          cwd: tmp_dir 
           expand: true
           src: ['main.js']
           dest: build_dir + '/js/'
@@ -112,12 +111,8 @@ module.exports = (grunt) ->
         tasks: 'coffee:app'
 
       fixtures:
-        files: app_dir + '/test/fixtures/**'
+        files: app_dir + '/template/fixtures/**'
         tasks: 'copy:fixtures'
-      
-    # task to generate config file for client and index.html
-    
-
   
    # Load grunt tasks
   # ---------------------------------------------------------------------------
@@ -129,9 +124,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-less'
   grunt.loadNpmTasks 'grunt-contrib-requirejs'
   
-  # Task Collections
-  # ---------------------------------------------------------------------------
-
   # // Register default task
   grunt.registerTask 'set_global', 'Set a global variable.', (name, val)->
     global[name] = val;

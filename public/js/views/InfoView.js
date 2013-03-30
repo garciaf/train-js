@@ -3,12 +3,13 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(function(require) {
-    var Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, moment, notificationTemplate, tableTemplate;
+    var Backbone, Dispatcher, InfoCollection, InfoRowView, InfoView, loadingTemplate, moment, notificationTemplate, tableTemplate;
     Backbone = require('backbone');
     Dispatcher = require('event');
     InfoCollection = require('collections/InfoCollection');
     tableTemplate = require('hbs!template/info/tableInfo');
     notificationTemplate = require('hbs!template/notification');
+    loadingTemplate = require('hbs!template/loading');
     InfoRowView = require('views/InfoRowView');
     moment = require('moment');
     (function() {});
@@ -78,10 +79,7 @@
       };
 
       InfoView.prototype.displayloading = function() {
-        return this.$el.html(notificationTemplate({
-          type: "alert",
-          message: "loading"
-        }));
+        return this.$el.html(loadingTemplate());
       };
 
       InfoView.prototype.hide = function() {

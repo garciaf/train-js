@@ -5,6 +5,7 @@ define (require) ->
   InfoCollection = require 'collections/InfoCollection'
   tableTemplate    = require 'hbs!template/info/tableInfo'
   notificationTemplate = require 'hbs!template/notification'
+  loadingTemplate = require 'hbs!template/loading'
   InfoRowView = require 'views/InfoRowView'
   moment      = require 'moment'
 
@@ -55,7 +56,7 @@ define (require) ->
       @$el.html(notificationTemplate({type: "error", message: "error communication"}))
     
     displayloading: ->
-      @$el.html(notificationTemplate({type: "alert", message: "loading"}))
+      @$el.html(loadingTemplate())
 
     hide: ->
       @$el.hide()

@@ -32,7 +32,7 @@ define (require) ->
       if @intervalID? then clearInterval(@intervalID)
       @intervalID = setInterval( () =>
         @populateData(model)
-      , 60000)
+      , 300000)
 
     populateData: (model) ->
       @collection.fetch(

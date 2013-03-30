@@ -45,7 +45,7 @@
         }
         return this.intervalID = setInterval(function() {
           return _this.populateData(model);
-        }, 60000);
+        }, 300000);
       };
 
       InfoView.prototype.populateData = function(model) {

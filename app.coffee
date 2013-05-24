@@ -24,7 +24,7 @@ app.configure ->
   app.use express.cookieParser(config.cookie_secret)
   app.use express.session()
   app.use app.router
-  app.use gzip.staticGzip(path.join(__dirname, "public"), {maxAge: 86400000, flags: "--best"})
+  app.use express.static(path.join(__dirname, "public"))
 
 app.configure "development", ->
   app.use express.errorHandler()

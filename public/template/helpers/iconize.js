@@ -7,15 +7,15 @@
       icon = (function() {
         switch (type) {
           case "TER":
-            return "<img src='/img/ter.png'>";
+            return "<i class='icons-ter'></i>";
           case "TGV":
-            return "<img src='/img/tgv.jpg'>";
+            return "<i class='icons-tgv'></i>";
           case "INTERCITES":
-            return "<img src='/img/intercite.png'>";
+            return "<i class='icons-intercite'></i>";
           case "BUS":
-            return "<img src='/img/bus.png'>";
+            return "<i class='icons-bus'></i>";
           case "IDTGV":
-            return "<img src='/img/idtgv.png'>";
+            return "<i class='icons-idtgv'></i>";
           default:
             return type;
         }

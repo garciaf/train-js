@@ -14,6 +14,7 @@ module.exports = (grunt) ->
     clean:
       minify: tmp_dir
       public: "public"
+      sass: ".sass-cache"
 
     less:
       release:
@@ -62,23 +63,28 @@ module.exports = (grunt) ->
           modules:[
             name: "main"
           ]
-    compass: # Task
-      prod: # Target
-        options: # Target options
+    compass: 
+      prod: 
+        options:
           sassDir: app_dir + '/sass/'
           cssDir: build_dir + '/css/'
           imagesPath: app_dir 
           imagesDir: ""
           # clean: true
           importPath: app_dir
-          # environment: "production"
+          environment: "production"
           relativeAssets: false
           generatedImagesPath: build_dir
 
-      dev: # Another target
+      dev:
         options:
           sassDir: app_dir + '/sass/'
           cssDir: build_dir + '/css/'
+          imagesPath: app_dir 
+          imagesDir: ""
+          importPath: app_dir
+          relativeAssets: false
+          generatedImagesPath: build_dir
 
     copy:
 
@@ -148,5 +154,5 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'default', ['watch']
   grunt.registerTask 'build', ['clean','coffee', 'copy', 'less']
-  grunt.registerTask 'build:prod', ['build','requirejs', 'copy:minify', 'clean:minify', 'compass:prod']
+  grunt.registerTask 'build:prod', ['build','requirejs', 'copy:minify', 'clean:minify', 'compass:prod', 'clean:sass']
   # Test Tasks

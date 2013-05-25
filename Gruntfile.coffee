@@ -62,6 +62,23 @@ module.exports = (grunt) ->
           modules:[
             name: "main"
           ]
+    compass: # Task
+      prod: # Target
+        options: # Target options
+          sassDir: app_dir + '/sass/'
+          cssDir: build_dir + '/css/'
+          imagesPath: app_dir 
+          imagesDir: ""
+          # clean: true
+          importPath: app_dir
+          # environment: "production"
+          relativeAssets: false
+          generatedImagesPath: build_dir
+
+      dev: # Another target
+        options:
+          sassDir: app_dir + '/sass/'
+          cssDir: build_dir + '/css/'
 
     copy:
 
@@ -123,7 +140,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-less'
   grunt.loadNpmTasks 'grunt-contrib-requirejs'
-  
+  grunt.loadNpmTasks 'grunt-contrib-compass' 
   # // Register default task
   grunt.registerTask 'set_global', 'Set a global variable.', (name, val)->
     global[name] = val;
@@ -131,5 +148,5 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'default', ['watch']
   grunt.registerTask 'build', ['clean','coffee', 'copy', 'less']
-  grunt.registerTask 'build:prod', ['build','requirejs', 'copy:minify', 'clean:minify']
+  grunt.registerTask 'build:prod', ['build','requirejs', 'copy:minify', 'clean:minify', 'compass:prod']
   # Test Tasks
